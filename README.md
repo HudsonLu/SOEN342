@@ -7,7 +7,7 @@
 **Section H**
 <br>
 
-### Team 15 (TA: Aly Hussein Aly-Hussein)
+### Team 15 (TA: Aly Hussein)
 
 | Name               | ID        |
 |--------------------|-----------|
