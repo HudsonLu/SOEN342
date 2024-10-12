@@ -9,7 +9,7 @@
 
 ### Team 15 (TA: Aly Hussein)
 
-| Name               | ID        |
-|--------------------|-----------|
-| Hudson Xingcheng Lu | 40254326  |
-| Andra Vele          | 40175695  |
+| Name               | ID        | email
+|--------------------|-----------|-----------|
+| Hudson Xingcheng Lu | 40254326  |  hudson.lu@mail.concordia.ca
+| Andra Vele          | 40175695  | andra.vele@mail.concordia.ca
