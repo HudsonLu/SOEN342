@@ -9,7 +9,18 @@
 
 ### Team 15 (TA: Aly Hussein)
 
-| Name               | ID        | email
+| Name               | ID        | Email
 |--------------------|-----------|-----------|
 | Hudson Xingcheng Lu | 40254326  |  hudson.lu@mail.concordia.ca
 | Andra Vele          | 40175695  | andra.vele@mail.concordia.ca
+
+
+
+
+#### Commit Messages
+| **Commit Level** | **Description**                                                                   |
+|------------------|-----------------------------------------------------------------------------------|
+| **0**            | Unimportant commits, e.g. comments.                                                |
+| **1**            | Minor commits, e.g. changing the names of functions or variables.                  |
+| **2**            | Important commits, e.g. adding new functions into classes.                         |
+| **3**            | Very important commits, e.g. adding a class.                                       |
