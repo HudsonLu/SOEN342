@@ -21,8 +21,8 @@
 | **Operation:**       | `makeOfferingAvailable(admin,lesson)`                          |
 |----------------------|----------------------------------------------------|
 | **Cross References:** | Use case Process Offerings                        |
-| **Pre-conditions:**  |  |
-| **Post-conditions:** | |
+| **Pre-conditions:**  | Offer(s) exist(s) |
+| **Post-conditions:** | Offer's attribute availability was modified (modification of attribute)|
 
 
 ## Contract CO3: selectLesson
@@ -30,8 +30,8 @@
 | **Operation:**       | `selectLesson (instructor,lesson)`                          |
 |----------------------|----------------------------------------------------|
 | **Cross References:** | Use case Process Offerings                        |
-| **Pre-conditions:**  |  |
-| **Post-conditions:** |  |
+| **Pre-conditions:**  | Offer(s) exist(s) |
+| **Post-conditions:** | Offer is associated with Instructor (association formed) |
 
 
 ## Contract CO4: viewOffering
@@ -39,5 +39,5 @@
 | **Operation:**       | `viewOffering()`                          |
 |----------------------|----------------------------------------------------|
 | **Cross References:** | Use case Process Offerings                        |
-| **Pre-conditions:**  |  |
-| **Post-conditions:** | |
+| **Pre-conditions:**  | Offers are valid |
+| **Post-conditions:** | Offers can be viewed|
