@@ -25,3 +25,10 @@ WorkFiles (Google Drive): https://drive.google.com/drive/folders/1uCUogp9aF82Z0h
 | **1**            | Minor commits, e.g. changing the names of functions or variables.                  |
 | **2**            | Important commits, e.g. adding new functions into classes.                         |
 | **3**            | Very important commits, e.g. adding a class.                                       |
+
+#### Implementation
+Java (Console) + Hibernate (Persistence) + MySQL (Database)
+
+#### References
+PlantUML, "PlantUML – Open-source tool that uses simple textual descriptions to draw UML diagrams," [Online]. Available: https://plantuml.com/. [Accessed: 21-Oct-2024].
+
