@@ -47,3 +47,8 @@ public class Main {
         System.out.println("Program terminated.");
     }
 }
+
+/*
+javac Main.java
+java Main
+*/
