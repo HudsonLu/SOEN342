@@ -1,4 +1,4 @@
-# System Operations: Use Case 1 - Process Bookings
+# System Operations: Use Case 2 - Process Bookings
 
 - `initiateBooking(client_id)`
 - `getOffering(offering_id)`
