@@ -3,23 +3,6 @@ package Offering;
 import java.time.LocalTime;
 import User.*;
 
-enum Days {
-    MONDAY,
-    TUESDAY,
-    WEDNESDAY,
-    THURSDAY,
-    FRIDAY,
-    SATURDAY,
-    SUNDAY
-}
-
-enum OfferingStatus {
-    UNAVAILABLE,              // Not available for instructors yet
-    AVAILABLE_TO_INSTRUCTORS, // Available for instructors to select
-    AVAILABLE_TO_PUBLIC,      // Available for the public to book
-    FULLY_BOOKED              // Maxed out for public bookings
-}
-
 public class Offering {
     private int offerId;
     private boolean isPrivateLesson;
@@ -83,6 +66,10 @@ public class Offering {
 
     public boolean isPrivateLesson() {
         return isPrivateLesson;
+    }
+
+    public Instructor getInstructor() {
+        return instructor;
     }
 
 
