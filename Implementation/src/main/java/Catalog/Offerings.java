@@ -1,6 +1,7 @@
 package Catalog;
 
-import Offering.*;
+import Booking.Offering;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class Offerings {
     }
 
     // Method to create a new offering and add it to the list
-    public void createOffer(boolean isPrivateLesson, String lesson, String startTime, String endTime, Days day) {
+    public void createOffer(boolean isPrivateLesson, String lesson, String startTime, String endTime) {
 
         int newOfferId = offers.size() + 1; // Generate a new ID for the offer
         Offering newOffering = new Offering(
@@ -41,7 +42,7 @@ public class Offerings {
                 lesson,
                 LocalTime.parse(startTime),
                 LocalTime.parse(endTime),
-                day
+
         );
         offers.add(newOffering);
     }

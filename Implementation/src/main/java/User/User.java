@@ -1,40 +1,34 @@
 package User;
 
 public abstract class User {
-
-    private static long lastUserId = 0; // Static variable to keep track of the last assigned ID
-    private long user_id;
     private String name;
     private String phoneNumber;
+    private String role;
 
-    public User(String name, String phoneNumber) {
-        this.user_id = ++lastUserId; // Increment and assign to user_id
+    public User(String name, String phoneNumber, String role) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.role = role;
     }
 
+    // Getters
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public String getRole() {
+        return role;
     }
 
-    public long getUser_id() {
-        return user_id;
+    // Credential validation (for simplicity in this example)
+    public boolean validateCredentials(String inputName, String inputPhoneNumber) {
+        return this.name.equals(inputName) && this.phoneNumber.equals(inputPhoneNumber);
     }
 
-    // Remove or restrict setUser_id to avoid changing the ID after assignment
-    public void setUser_id(long user_id) {
-        throw new UnsupportedOperationException("User ID is automatically generated and cannot be set manually.");
-    }
+    // Abstract method for role-specific actions
+    public abstract void performRoleSpecificActions();
 }

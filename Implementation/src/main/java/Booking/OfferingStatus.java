@@ -1,4 +1,4 @@
-package Offering;
+package Booking;
 
 public enum OfferingStatus {
     UNAVAILABLE,              // Not available for instructors yet
