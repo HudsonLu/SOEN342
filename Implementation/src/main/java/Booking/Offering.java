@@ -17,7 +17,7 @@ public class Offering {
         this.isAvailable = isAvailable;
         this.lesson = lesson;
         this.instructor = instructor;
-        this.offeringStatus = OfferingStatus.AVAILABLE_TO_INSTRUCTORS;
+        this.offeringStatus = OfferingStatus.UNAVAILABLE; // Set initial status to UNAVAILABLE
     }
 
     public boolean isAvailable() {
