@@ -1,40 +1,45 @@
 // Lesson.java
 package Lesson;
 
-import java.util.Date;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 public class Lesson {
-    private Date startTime;
-    private Date endTime;
-    private boolean isAvailable;
-    private String lessonName;
-    private boolean isPrivate;
-    private Space space; // Assuming Space is defined elsewhere in your project
+    private LocalTime startTime;     // Time when the lesson starts
+    private LocalTime endTime;       // Time when the lesson ends
+    private boolean isAvailable;     // Indicates if the lesson is available
+    private String lessonName;       // Name of the lesson
+    private boolean isPrivate;       // True if private, false if group
+    private Space space;             // Space where the lesson is held
+    private DayOfWeek dayOfWeek;     // Day of the week the lesson occurs
+    private String dateRange;        // Overall date range as a string (e.g., "Sep 1 - Nov 30, 2024")
 
     // Constructor
-    public Lesson(Date startTime, Date endTime, boolean isAvailable, String lessonName, boolean isPrivate, Space space) {
+    public Lesson(LocalTime startTime, LocalTime endTime, boolean isAvailable, String lessonName, boolean isPrivate, Space space, DayOfWeek dayOfWeek, String dateRange) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.isAvailable = isAvailable;
         this.lessonName = lessonName;
         this.isPrivate = isPrivate;
         this.space = space;
+        this.dayOfWeek = dayOfWeek;
+        this.dateRange = dateRange;
     }
 
     // Getters and Setters
-    public Date getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
@@ -70,13 +75,32 @@ public class Lesson {
         this.space = space;
     }
 
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public String getDateRange() {
+        return dateRange;
+    }
+
+    public void setDateRange(String dateRange) {
+        this.dateRange = dateRange;
+    }
+
     // Method to display lesson details
     public void displayLessonDetails() {
         System.out.println("Lesson Name: " + lessonName);
+        System.out.println("Day: " + dayOfWeek);
         System.out.println("Start Time: " + startTime);
         System.out.println("End Time: " + endTime);
         System.out.println("Availability: " + (isAvailable ? "Available" : "Not Available"));
         System.out.println("Type: " + (isPrivate ? "Private" : "Group"));
+        System.out.println("Date Range: " + dateRange);
         System.out.println("Location: " + (space != null ? space.getDetails() : "Not Assigned"));
     }
 }
+
