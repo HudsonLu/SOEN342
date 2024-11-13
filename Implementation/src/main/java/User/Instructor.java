@@ -1,6 +1,7 @@
 // Instructor.java
 package User;
 
+import Catalog.Lessons;
 import Catalog.Offerings;
 import Booking.Offering;
 import Lesson.Lesson;
@@ -71,6 +72,16 @@ public class Instructor extends User {
         selectedLesson.displayLessonDetails(); // Include lesson details
         System.out.println("Instructor: " + this.getName());
         System.out.println("Status: " + offering.getOfferingStatus());
+    }
+    public void viewAllOfferings() {
+        System.out.println("All Offerings:");
+        Offerings.displayOfferings(); // Ensure Offerings has a method to display all offerings
+    }
+
+    // View lessons not associated with any offering
+    public void viewUnassociatedLessons(Lessons lessons) {
+        System.out.println("Lessons Not Associated with Any Offering:");
+        lessons.displayCancellableLessons(); // Displays lessons not tied to offerings
     }
 
 }

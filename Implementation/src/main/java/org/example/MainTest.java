@@ -20,10 +20,10 @@ public class MainTest {
 
         // Create a lesson
         System.out.println("\nAdmin: Create a new lesson.");
-        admin.createLesson();
+        //admin.createLesson();
 
         // Display updated lessons
         System.out.println("\nUpdated Lessons:");
-        lessons.displayLessons();
+        lessons.displayAllLessons();
     }
 }

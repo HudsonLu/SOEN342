@@ -1,11 +1,15 @@
 // Administrator.java
 package User;
 
+import Authentication.UserRepository;
+import Booking.Offering;
+import Booking.OfferingStatus;
 import Lesson.*;
 import Catalog.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Scanner;
 
 public class Administrator extends User {
@@ -18,6 +22,31 @@ public class Administrator extends User {
         super(name, phoneNumber, "Administrator");
         this.lessons = lessons;
         this.spaces = spaces;
+    }
+
+    // View all offerings
+    public void viewAllOfferings() {
+        System.out.println("All Offerings:");
+        Offerings.displayOfferings();
+    }
+
+    // View all user accounts
+    public void viewAccounts() {
+        System.out.println("All Registered Accounts:");
+        UserRepository.getAllUsers().forEach(user ->
+                System.out.println(user.getRole() + ": " + user.getName() + " (" + user.getPhoneNumber() + ")")
+        );
+    }
+
+    // Delete a user account
+    public void deleteAccount(String name, String phoneNumber) {
+        User user = UserRepository.getUserByNameAndPhone(name, phoneNumber);
+        if (user == null) {
+            System.out.println("No user found with the given details.");
+            return;
+        }
+        UserRepository.getAllUsers().remove(user);
+        System.out.println("Account deleted successfully: " + name);
     }
 
     // Overloaded constructor for simpler creation
@@ -82,6 +111,33 @@ public class Administrator extends User {
         System.out.println("Lesson created successfully!");
     }
 
+    // View all available spaces
+    public void viewSpaces(Spaces spaces) {
+        System.out.println("Available Spaces:");
+        spaces.displaySpaces();
+    }
+
+    public void updateOfferingsToAvailable() {
+        System.out.println("Offerings Currently Unavailable to the Public:");
+        Offerings.displayOfferingsByStatus(OfferingStatus.UNAVAILABLE);
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select an offering to make available to the public (Enter the index):");
+        int index = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        List<Offering> unavailableOfferings = Offerings.getOfferingsByStatus(OfferingStatus.UNAVAILABLE);
+        if (index < 1 || index > unavailableOfferings.size()) {
+            System.out.println("Invalid selection. Operation canceled.");
+            return;
+        }
+
+        Offering selectedOffering = unavailableOfferings.get(index - 1);
+        selectedOffering.setOfferingStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
+
+        System.out.println("Offering updated successfully! New status: AVAILABLE_TO_PUBLIC");
+    }
+
 
     // Method to create an offering
     public void createOffering(String offeringName) {
@@ -92,5 +148,30 @@ public class Administrator extends User {
     public void deleteAccount(User user) {
         System.out.println("Deleting user account: " + user.getName());
     }
+
+    public void cancelLesson() {
+        System.out.println("Available Lessons for Cancellation:");
+        lessons.displayCancellableLessons();
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select a lesson to cancel (Enter the index):");
+        int index = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        lessons.removeLesson(index);
+    }
+
+    public void cancelOffering() {
+        System.out.println("Available Offerings for Cancellation:");
+        Offerings.displayCancellableOfferings();
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select an offering to cancel (Enter the index):");
+        int index = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        Offerings.cancelOffering(index);
+    }
+
 }
 
