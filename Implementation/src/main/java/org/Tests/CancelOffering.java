@@ -1,12 +1,11 @@
 
-package org.example;
+package org.Tests;
 import Authentication.*;
 import User.*;
-import Lesson.*;
 import Catalog.*;
 import Booking.*;
 import java.util.List;
-import java.util.Scanner;
+
 public class CancelOffering {
     public static void main(String[] args) {
         // Initialize spaces and lessons
@@ -25,7 +24,7 @@ public class CancelOffering {
         Offerings.getAllOfferings().get(1).setOfferingStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
 
         // Retrieve admin from repository
-        User user = UserRepository.getUserByNameAndPhone("Admin Alice", "111-222-3333");
+        User user = Users.getUserByNameAndPhone("Admin Alice", "111-222-3333");
         if (user instanceof Administrator) {
             Administrator admin = (Administrator) user;
 

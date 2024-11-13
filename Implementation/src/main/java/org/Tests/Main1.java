@@ -1,9 +1,8 @@
-package org.example;
+package org.Tests;
 import Authentication.*;
 import User.*;
-import Lesson.*;
 import Catalog.*;
-import Booking.*;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,9 +16,9 @@ public class Main1 {
         Lessons lessons = new Lessons(spaces);
 
         // Add sample users
-        UserRepository.addUser(new Administrator("Admin Alice", "111-222-3333"));
-        UserRepository.addUser(new Client("Bob", "987-654-3210"));
-        UserRepository.addUser(new Instructor("John Doe", "123-456-7890", "Yoga", List.of("Montreal", "Toronto")));
+        Users.addUser(new Administrator("Admin Alice", "111-222-3333"));
+        Users.addUser(new Client("Bob", "987-654-3210"));
+        Users.addUser(new Instructor("John Doe", "123-456-7890", "Yoga", List.of("Montreal", "Toronto")));
 
         // Main Menu Loop
         while (true) {
@@ -53,7 +52,7 @@ public class Main1 {
         System.out.print("Enter your phone number: ");
         String phoneNumber = scanner.nextLine();
 
-        User user = UserRepository.getUserByNameAndPhone(name, phoneNumber);
+        User user = Users.getUserByNameAndPhone(name, phoneNumber);
         if (user == null) {
             System.out.println("Invalid credentials. Please try again or sign up.");
             return;
@@ -87,16 +86,16 @@ public class Main1 {
         String phoneNumber = scanner.nextLine();
 
         switch (choice) {
-            case 1 -> UserRepository.addUser(new Client(name, phoneNumber));
+            case 1 -> Users.addUser(new Client(name, phoneNumber));
             case 2 -> {
                 System.out.print("Enter your specialization: ");
                 String specialization = scanner.nextLine();
 
                 System.out.print("Enter cities you are available in (comma-separated): ");
                 List<String> cities = List.of(scanner.nextLine().split(","));
-                UserRepository.addUser(new Instructor(name, phoneNumber, specialization, cities));
+                Users.addUser(new Instructor(name, phoneNumber, specialization, cities));
             }
-            case 3 -> UserRepository.addUser(new Administrator(name, phoneNumber));
+            case 3 -> Users.addUser(new Administrator(name, phoneNumber));
             default -> {
                 System.out.println("Invalid choice. Returning to Main Menu.");
                 return;
@@ -110,7 +109,7 @@ public class Main1 {
 
 
     private static void adminDashboard(Scanner scanner, Lessons lessons, Spaces spaces) {
-        Administrator admin = (Administrator) UserRepository.getUserByNameAndPhone("Admin Alice", "111-222-3333");
+        Administrator admin = (Administrator) Users.getUserByNameAndPhone("Admin Alice", "111-222-3333");
 
         while (true) {
             System.out.println("Administrator Dashboard");
@@ -163,7 +162,7 @@ public class Main1 {
 
 
     private static void clientDashboard(Scanner scanner) {
-        Client client = (Client) UserRepository.getUserByNameAndPhone("Bob", "987-654-3210");
+        Client client = (Client) Users.getUserByNameAndPhone("Bob", "987-654-3210");
 
         while (true) {
             System.out.println("Client Dashboard");
@@ -197,7 +196,7 @@ public class Main1 {
     }
 
     private static void instructorDashboard(Scanner scanner, Lessons lessons, Spaces spaces) {
-        Instructor instructor = (Instructor) UserRepository.getUserByNameAndPhone("John Doe", "123-456-7890");
+        Instructor instructor = (Instructor) Users.getUserByNameAndPhone("John Doe", "123-456-7890");
 
         while (true) {
             System.out.println("Instructor Dashboard");

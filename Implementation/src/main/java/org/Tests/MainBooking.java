@@ -1,7 +1,6 @@
-package org.example;
+package org.Tests;
 import Authentication.*;
 import User.*;
-import Lesson.*;
 import Catalog.*;
 import Booking.*;
 import java.util.List;
@@ -24,7 +23,7 @@ public class MainBooking {
         Offerings.getAllOfferings().get(1).setOfferingStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
 
         // Retrieve client from repository
-        User user = UserRepository.getUserByNameAndPhone("Bob", "987-654-3210");
+        User user = Users.getUserByNameAndPhone("Bob", "987-654-3210");
         if (user instanceof Client) {
             Client client = (Client) user;
 

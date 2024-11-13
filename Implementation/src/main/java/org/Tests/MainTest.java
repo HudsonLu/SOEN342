@@ -1,8 +1,6 @@
-package org.example;
+package org.Tests;
 
-import Authentication.*;
 import User.*;
-import Lesson.*;
 import Catalog.*;
 
 public class MainTest {

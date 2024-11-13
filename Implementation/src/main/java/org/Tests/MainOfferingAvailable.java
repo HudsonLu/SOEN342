@@ -1,7 +1,6 @@
-package org.example;
+package org.Tests;
 import Authentication.*;
 import User.*;
-import Lesson.*;
 import Catalog.*;
 import Booking.*;
 import java.util.List;
@@ -21,7 +20,7 @@ public class MainOfferingAvailable {
         Offerings.addOffering(new Offering(false, lessons.getLessons().get(1), instructor2)); // Yoga
 
         // Retrieve admin from repository
-        User user = UserRepository.getUserByNameAndPhone("Admin Alice", "111-222-3333");
+        User user = Users.getUserByNameAndPhone("Admin Alice", "111-222-3333");
         if (user instanceof Administrator) {
             Administrator admin = (Administrator) user;
 

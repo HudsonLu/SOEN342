@@ -11,7 +11,7 @@ public class LoginService {
 
     // Authenticate an existing user
     public static User authenticate(String name, String phoneNumber) {
-        User user = UserRepository.getUserByNameAndPhone(name, phoneNumber);
+        User user = Users.getUserByNameAndPhone(name, phoneNumber);
 
         if (user != null) {
             System.out.println("Login successful! Welcome, " + user.getName() + ".");
@@ -39,7 +39,7 @@ public class LoginService {
                 return;
         }
 
-        UserRepository.addUser(newUser);
+        Users.addUser(newUser);
     }
 }
 

@@ -1,16 +1,14 @@
-package org.example;
+package org.Tests;
 
 
-import Authentication.LoginService;
 import User.User;
 import Authentication.*;
 import User.*;
-import Lesson.*;
 import Catalog.*;
 import Booking.*;
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.Scanner;
+
 public class MainCancelBooking {
     public static void main(String[] args) {
         // Initialize spaces and lessons
@@ -29,7 +27,7 @@ public class MainCancelBooking {
         offering2.setOfferingStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
 
         // Retrieve client from repository
-        User user = UserRepository.getUserByNameAndPhone("Bob", "987-654-3210");
+        User user = Users.getUserByNameAndPhone("Bob", "987-654-3210");
         if (user instanceof Client) {
             Client client = (Client) user;
 

@@ -1,7 +1,7 @@
 // Administrator.java
 package User;
 
-import Authentication.UserRepository;
+import Authentication.Users;
 import Booking.Offering;
 import Booking.OfferingStatus;
 import Lesson.*;
@@ -33,19 +33,19 @@ public class Administrator extends User {
     // View all user accounts
     public void viewAccounts() {
         System.out.println("All Registered Accounts:");
-        UserRepository.getAllUsers().forEach(user ->
+        Users.getAllUsers().forEach(user ->
                 System.out.println(user.getRole() + ": " + user.getName() + " (" + user.getPhoneNumber() + ")")
         );
     }
 
     // Delete a user account
     public void deleteAccount(String name, String phoneNumber) {
-        User user = UserRepository.getUserByNameAndPhone(name, phoneNumber);
+        User user = Users.getUserByNameAndPhone(name, phoneNumber);
         if (user == null) {
             System.out.println("No user found with the given details.");
             return;
         }
-        UserRepository.getAllUsers().remove(user);
+        Users.getAllUsers().remove(user);
         System.out.println("Account deleted successfully: " + name);
     }
 

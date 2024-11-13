@@ -1,4 +1,4 @@
-package org.example;
+package org.Tests;
 
 import Authentication.LoginService;
 import User.User;

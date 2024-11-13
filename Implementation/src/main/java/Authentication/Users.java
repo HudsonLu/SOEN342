@@ -6,7 +6,7 @@ import User.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository {
+public class Users {
     private static final List<User> users = new ArrayList<>();
 
     static {

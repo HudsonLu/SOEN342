@@ -1,13 +1,11 @@
-package org.example;
-import Authentication.*;
+package org.Tests;
 import User.*;
-import Lesson.*;
 import Catalog.*;
 import Booking.*;
 import java.util.List;
 import java.util.Scanner;
 
-public class MainCancel {
+public class MainCancelLesson {
     public static void main(String[] args) {
         // Initialize spaces
         Spaces spaces = new Spaces();
