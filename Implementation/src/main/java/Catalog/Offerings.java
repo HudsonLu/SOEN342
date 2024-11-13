@@ -1,0 +1,139 @@
+package Catalog;
+
+import java.util.ArrayList;
+import java.util.List;
+import Booking.*;
+
+public class Offerings {
+    private static final List<Offering> offerings = new ArrayList<>();
+
+    // Add an offering
+    public static void addOffering(Offering offering) {
+        offerings.add(offering);
+    }
+
+    // Retrieve all offerings
+    public static List<Offering> getAllOfferings() {
+        return offerings;
+    }
+
+    // Retrieve offerings with a specific status
+    public static List<Offering> getOfferingsByStatus(OfferingStatus status) {
+        List<Offering> filteredOfferings = new ArrayList<>();
+        for (Offering offering : offerings) {
+            if (offering.getOfferingStatus() == status) {
+                filteredOfferings.add(offering);
+            }
+        }
+        return filteredOfferings;
+    }
+
+    // Display all offerings
+    public static void displayOfferings() {
+        if (offerings.isEmpty()) {
+            System.out.println("No offerings available.");
+            return;
+        }
+
+        for (int i = 0; i < offerings.size(); i++) {
+            System.out.println("Offering " + (i + 1) + ":");
+            Offering offering = offerings.get(i);
+            offering.getLesson().displayLessonDetails();
+            System.out.println("Instructor: " + offering.getInstructor().getName());
+            System.out.println("Status: " + offering.getOfferingStatus());
+            System.out.println("--------------------------------");
+        }
+    }
+
+    // Display offerings by status
+    public static void displayOfferingsByStatus(OfferingStatus status) {
+        List<Offering> filteredOfferings = getOfferingsByStatus(status);
+        if (filteredOfferings.isEmpty()) {
+            System.out.println("No offerings with status: " + status);
+            return;
+        }
+        for (int i = 0; i < filteredOfferings.size(); i++) {
+            Offering offering = filteredOfferings.get(i);
+            System.out.println((i + 1) + ". Offering Details:");
+            offering.getLesson().displayLessonDetails();
+            System.out.println("Instructor: " + offering.getInstructor().getName());
+            System.out.println("Status: " + offering.getOfferingStatus());
+            System.out.println("--------------------------------");
+        }
+    }
+
+    // Display public offerings
+    public static void displayPublicOfferings() {
+        List<Offering> publicOfferings = getOfferingsByStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
+        if (publicOfferings.isEmpty()) {
+            System.out.println("No offerings available to the public.");
+            return;
+        }
+        for (int i = 0; i < publicOfferings.size(); i++) {
+            Offering offering = publicOfferings.get(i);
+            System.out.println((i + 1) + ". Offering Details:");
+            offering.getLesson().displayLessonDetails();
+            System.out.println("Instructor: " + offering.getInstructor().getName());
+            System.out.println("Status: " + offering.getOfferingStatus());
+            System.out.println("--------------------------------");
+        }
+    }
+
+    // Book an offering
+    public static void bookOffering(int index, String clientName) {
+        List<Offering> publicOfferings = getOfferingsByStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
+        if (index < 1 || index > publicOfferings.size()) {
+            System.out.println("Invalid selection. Booking canceled.");
+            return;
+        }
+
+        Offering offering = publicOfferings.get(index - 1);
+        offering.setOfferingStatus(OfferingStatus.FULLY_BOOKED);
+        System.out.println("Booking successful for client: " + clientName);
+        System.out.println("Offering Status updated to FULLY_BOOKED.");
+    }
+
+    // Get cancellable offerings (not booked yet)
+    public static List<Offering> getCancellableOfferings() {
+        List<Offering> cancellableOfferings = new ArrayList<>();
+        for (Offering offering : offerings) {
+            if (offering.getOfferingStatus() == OfferingStatus.AVAILABLE_TO_PUBLIC) {
+                cancellableOfferings.add(offering);
+            }
+        }
+        return cancellableOfferings;
+    }
+
+    // Display cancellable offerings
+    public static void displayCancellableOfferings() {
+        List<Offering> cancellableOfferings = getCancellableOfferings();
+        if (cancellableOfferings.isEmpty()) {
+            System.out.println("No offerings available for cancellation.");
+            return;
+        }
+
+        for (int i = 0; i < cancellableOfferings.size(); i++) {
+            Offering offering = cancellableOfferings.get(i);
+            System.out.println("Offering " + (i + 1) + ":");
+            offering.getLesson().displayLessonDetails();
+            System.out.println("Instructor: " + offering.getInstructor().getName());
+            System.out.println("Status: " + offering.getOfferingStatus());
+            System.out.println("--------------------------------");
+        }
+    }
+
+    // Cancel an offering
+    public static void cancelOffering(int index) {
+        List<Offering> cancellableOfferings = getCancellableOfferings();
+        if (index < 1 || index > cancellableOfferings.size()) {
+            System.out.println("Invalid selection. Operation canceled.");
+            return;
+        }
+
+        Offering offeringToCancel = cancellableOfferings.get(index - 1);
+        offerings.remove(offeringToCancel); // Remove offering from the list
+
+        System.out.println("Offering canceled successfully.");
+    }
+
+}
