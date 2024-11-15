@@ -5,13 +5,24 @@ import Catalog.Lessons;
 import Catalog.Offerings;
 import Booking.Offering;
 import Lesson.Lesson;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
 
 import java.util.List;
 import java.util.Scanner;
 
+@Entity
+@Table(name = "Instructor")
 public class Instructor extends User {
     private String specialization;
+    @Transient
     private List<String> cities;
+
+    @Id
+    private Long id;
 
     public Instructor(String name, String phoneNumber, String specialization, List<String> cities) {
         super(name, phoneNumber, "Instructor");
@@ -22,6 +33,10 @@ public class Instructor extends User {
     // Overloaded constructor for simplicity
     public Instructor(String name, String phoneNumber) {
         this(name, phoneNumber, "Unknown", List.of());
+    }
+
+    public Instructor() {
+
     }
 
     public String getSpecialization() {

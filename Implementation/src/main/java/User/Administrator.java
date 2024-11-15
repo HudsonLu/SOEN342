@@ -6,22 +6,37 @@ import Booking.Offering;
 import Booking.OfferingStatus;
 import Lesson.*;
 import Catalog.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
 
+@Entity
+@Table(name = "Administrator")
 public class Administrator extends User {
 
+    @Id
+    private Long id;
+    @Transient
     private Lessons lessons;
+    @Transient
     private Spaces spaces;
+
 
     // Full constructor with all parameters
     public Administrator(String name, String phoneNumber, Lessons lessons, Spaces spaces) {
         super(name, phoneNumber, "Administrator");
         this.lessons = lessons;
         this.spaces = spaces;
+    }
+
+    public Administrator() {
+
     }
 
     // View all offerings

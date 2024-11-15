@@ -1,8 +1,7 @@
-// UserRepository.java
+// Users.java
 package Authentication;
 
 import User.*;
-
 import java.util.ArrayList;
 import java.util.List;
 

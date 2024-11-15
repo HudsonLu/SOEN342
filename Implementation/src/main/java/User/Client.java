@@ -3,17 +3,30 @@ package User;
 import Booking.Booking;
 import Booking.*;
 import Catalog.Offerings;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Entity
+@Table(name = "Client")
 public class Client extends User {
+    @Transient
     private List<Offering> bookings; // List of bookings made by the client
+    @Id
+    private Long id;
 
     public Client(String name, String phoneNumber) {
         super(name, phoneNumber, "Client");
         this.bookings = new ArrayList<>();
+    }
+
+    public Client() {
+
     }
 
     public List<Offering> getBookings() {
@@ -108,4 +121,11 @@ public class Client extends User {
         Offerings.bookOffering(index, this.getName());
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

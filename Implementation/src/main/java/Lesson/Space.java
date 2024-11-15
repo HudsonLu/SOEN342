@@ -1,9 +1,12 @@
 // Space.java
 package Lesson;
 
+
+
 import java.time.LocalTime;
 import java.time.DayOfWeek;
 import java.util.List;
+
 
 public class Space {
     private boolean isAvailable; // Indicates if the space is available
@@ -13,6 +16,7 @@ public class Space {
     private String room;         // Room name or identifier
     private List<DayOfWeek> availableDays; // Days of the week the space is available
 
+
     // Constructor
     public Space(boolean isAvailable, LocalTime startTime, LocalTime endTime, String city, String room, List<DayOfWeek> availableDays) {
         this.isAvailable = isAvailable;
@@ -21,6 +25,10 @@ public class Space {
         this.city = city;
         this.room = room;
         this.availableDays = availableDays;
+    }
+
+    public Space() {
+
     }
 
     // Getters and Setters

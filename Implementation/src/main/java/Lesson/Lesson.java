@@ -1,8 +1,12 @@
 // Lesson.java
 package Lesson;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+
 
 public class Lesson {
     private LocalTime startTime;     // Time when the lesson starts
@@ -14,6 +18,7 @@ public class Lesson {
     private DayOfWeek dayOfWeek;     // Day of the week the lesson occurs
     private String dateRange;        // Overall date range as a string (e.g., "Sep 1 - Nov 30, 2024")
 
+
     // Constructor
     public Lesson(LocalTime startTime, LocalTime endTime, boolean isAvailable, String lessonName, boolean isPrivate, Space space, DayOfWeek dayOfWeek, String dateRange) {
         this.startTime = startTime;
@@ -24,6 +29,10 @@ public class Lesson {
         this.space = space;
         this.dayOfWeek = dayOfWeek;
         this.dateRange = dateRange;
+    }
+
+    public Lesson() {
+
     }
 
     // Getters and Setters
@@ -102,5 +111,6 @@ public class Lesson {
         System.out.println("Date Range: " + dateRange);
         System.out.println("Location: " + (space != null ? space.getDetails() : "Not Assigned"));
     }
+
 }
 
