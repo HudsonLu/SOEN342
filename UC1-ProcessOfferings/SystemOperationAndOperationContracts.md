@@ -22,13 +22,13 @@ The following operations are part of the **Process Offerings** use case:
 
 ---
 
-## Contract CO2: View Lessons 
+## Contract CO2: View Lessons Process
 
-| **Operation:**        | `viewLessons()`                                          |
-|-----------------------|----------------------------------------------------------|
-| **Cross References:** | Use Case: Process Offerings                              |
-| **Pre-conditions:**   | - Instructor has logged in.                              |
-| **Post-conditions:**  | - Lessons are displayed for viewing.                     |
+| **Operation:**        | `viewLessons()`                              |
+|-----------------------|---------------------------------------------------------- ------|
+| **Cross References:** | Use Case: Process Offerings                                     |
+| **Pre-conditions:**   | - Instructor has logged in                                      |
+| **Post-conditions:**  | - If valid, the user successfully logs in (association formed). |
 
 ---
 
@@ -37,14 +37,14 @@ The following operations are part of the **Process Offerings** use case:
 | **Operation:**        | `selectLesson(instructor, lesson)`                       |
 |-----------------------|----------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                              |
-| **Pre-conditions:**   | - Instructor has been authenticated by the system.<br>   |
-|                       | - `Lesson` and `Instructor` objects exist.<br>           |
+| **Pre-conditions:**   | - Instructor has been authenticated by the system.       |
+|                       | - `Lesson` and `Instructor` objects exist.               |
 |                       | - No other offering exists for the same `Lesson` with the same instructor. |
-| **Post-conditions:**  | - An instance of `Offering` is created.<br>              |
-|                       | - The `Offering` is associated with the `Instructor`.<br>|
-|                       | - The `Offering` is associated with the `Lesson`.<br>    |
-|                       | - The `id` attribute is initialized in the `Offering`.<br>|
-|                       | - The `Offering` availability is set to "Unavailable".   |
+| **Post-conditions:**  | - An instance of `Offering` is created (instance creation).                  |
+|                       | - The `Offering` is associated with the `Instructor` (association formed).    |
+|                       | - The `Offering` is associated with the `Lesson` (association formed).        |
+|                       | - The `id` attribute is initialized in the `Offering` (attribute modification).   |
+|                       | - The `Offering` availability is set to "Unavailable" (attribute modification).   |
 
 ---
 
@@ -53,15 +53,15 @@ The following operations are part of the **Process Offerings** use case:
 | **Operation:**        | `makeOfferingAvailable(admin, lesson)`                  |
 |-----------------------|----------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                              |
-| **Pre-conditions:**   | - The `Offering` object exists.<br>                      |
+| **Pre-conditions:**   | - The `Offering` object exists.                          |
 |                       | - Administrator has been authenticated by the system.    |
-| **Post-conditions:**  | - The `Offering`'s availability attribute is updated.    |
+| **Post-conditions:**  | - The `Offering`'s availability attribute is updated(attribute modification). |
 
 ---
 
-## Contract CO5: View Offering
+## Contract CO5: View Offerings
 
-| **Operation:**        | `viewOffering()`                                         |
+| **Operation:**        | `viewOfferings()`                                         |
 |-----------------------|----------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                              |
 | **Pre-conditions:**   | - The `Offering` object exists.                          |
