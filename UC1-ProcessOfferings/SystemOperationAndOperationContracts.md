@@ -24,11 +24,11 @@ The following operations are part of the **Process Offerings** use case:
 
 ## Contract CO2: View Lessons 
 
-| **Operation:**        | `viewLessons()`                              |
-|-----------------------|---------------------------------------------------------- ------|
-| **Cross References:** | Use Case: Process Offerings                                     |
-| **Pre-conditions:**   | - Instructor has logged in                                      |
-| **Post-conditions:**  | - If valid, the user successfully logs in (association formed). |
+| **Operation:**        | `viewLessons()`                                          |
+|-----------------------|----------------------------------------------------------|
+| **Cross References:** | Use Case: Process Offerings                              |
+| **Pre-conditions:**   | - Instructor has logged in.                              |
+| **Post-conditions:**  | - Lessons are displayed for viewing.                     |
 
 ---
 
@@ -37,13 +37,13 @@ The following operations are part of the **Process Offerings** use case:
 | **Operation:**        | `selectLesson(instructor, lesson)`                       |
 |-----------------------|----------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                              |
-| **Pre-conditions:**   | - Instructor has been authenticated by the system.       |
-|                       | - `Lesson` and `Instructor` objects exist.               |
+| **Pre-conditions:**   | - Instructor has been authenticated by the system.<br>   |
+|                       | - `Lesson` and `Instructor` objects exist.<br>           |
 |                       | - No other offering exists for the same `Lesson` with the same instructor. |
-| **Post-conditions:**  | - An instance of `Offering` is created.                  |
-|                       | - The `Offering` is associated with the `Instructor`.    |
-|                       | - The `Offering` is associated with the `Lesson`.        |
-|                       | - The `id` attribute is initialized in the `Offering`.   |
+| **Post-conditions:**  | - An instance of `Offering` is created.<br>              |
+|                       | - The `Offering` is associated with the `Instructor`.<br>|
+|                       | - The `Offering` is associated with the `Lesson`.<br>    |
+|                       | - The `id` attribute is initialized in the `Offering`.<br>|
 |                       | - The `Offering` availability is set to "Unavailable".   |
 
 ---
@@ -53,7 +53,7 @@ The following operations are part of the **Process Offerings** use case:
 | **Operation:**        | `makeOfferingAvailable(admin, lesson)`                  |
 |-----------------------|----------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                              |
-| **Pre-conditions:**   | - The `Offering` object exists.                          |
+| **Pre-conditions:**   | - The `Offering` object exists.<br>                      |
 |                       | - Administrator has been authenticated by the system.    |
 | **Post-conditions:**  | - The `Offering`'s availability attribute is updated.    |
 
