@@ -1,21 +1,58 @@
+// Booking.java
 package Booking;
+
 import User.Client;
-import Offering.Offering;
+import Lesson.Lesson;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "Bookings")
 public class Booking {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
-    private Offering offer;
 
-    public Booking(Client client, Offering offer) {
+    @ManyToOne
+    @JoinColumn(name = "offering_id", nullable = false)
+    private Offering offering;
+
+    @Column(name = "booking_date_time", nullable = false)
+    private LocalDateTime bookingDateTime;
+
+    public Booking(Client client, Offering offering) {
         this.client = client;
-        this.offer = offer;
+        this.offering = offering;
+        this.bookingDateTime = LocalDateTime.now(); // Timestamp when booking is created
     }
 
-    public void makeBooking() {
-        System.out.println("Booking made for " + client.getName());
+    public Booking() {
     }
 
-    public void cancelBooking() {
-        System.out.println("Booking cancelled for " + client.getName());
+    public void cancel() {
+        offering.setAvailable(true); // Mark the offering as available again
+        System.out.println("Booking canceled for client: " + client.getName());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public Offering getOffering() {
+        return offering;
+    }
+
+    public LocalDateTime getBookingDateTime() {
+        return bookingDateTime;
     }
 }

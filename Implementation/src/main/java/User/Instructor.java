@@ -1,30 +1,101 @@
 // Instructor.java
 package User;
+
+import Catalog.Lessons;
+import Catalog.Offerings;
+import Booking.Offering;
+import Lesson.Lesson;
+import jakarta.persistence.*;
+
+
 import java.util.List;
+import java.util.Scanner;
+
+@Entity
+@Table(name = "Instructor")
 public class Instructor extends User {
-
     private String specialization;
-    private List<String> availableCities;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "Instructor_Cities", // Name of the table to store the cities
+            joinColumns = @JoinColumn(name = "instructor_id") // Foreign key to the Instructor table
+    )
+    @Column(name = "city") // Name of the column to store the cities
+    private List<String> cities;
 
-    public Instructor(String name, String phoneNumber, String specialization, List<String> availableCities) {
-        super(name, phoneNumber);
+    public Instructor(String name, String phoneNumber, String specialization, List<String> cities) {
+        super(name, phoneNumber, "Instructor");
         this.specialization = specialization;
-        this.availableCities = availableCities;
+        this.cities = cities;
+    }
+
+    // Overloaded constructor for simplicity
+    public Instructor(String name, String phoneNumber) {
+        this(name, phoneNumber, "Unknown", List.of());
+    }
+
+    public Instructor() {
+
     }
 
     public String getSpecialization() {
         return specialization;
     }
 
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
+    public List<String> getCities() {
+        return cities;
     }
 
-    public List<String> getAvailableCities() {
-        return availableCities;
+    @Override
+    public void performRoleSpecificActions() {
+        System.out.println("Instructor Dashboard: Manage your schedule, classes, and offerings.");
     }
 
-    public void setAvailableCities(List<String> availableCities) {
-        this.availableCities = availableCities;
+    public void createOffering(List<Lesson> lessons) {
+        if (lessons.isEmpty()) {
+            System.out.println("No lessons available to create an offering.");
+            return;
+        }
+
+        // Display lessons with full details
+        System.out.println("Available Lessons:");
+        for (int i = 0; i < lessons.size(); i++) {
+            System.out.println("Lesson " + (i + 1) + ":");
+            lessons.get(i).displayLessonDetails();
+            System.out.println("--------------------------------");
+        }
+
+        // Prompt instructor to select a lesson
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select a lesson to create an offering:");
+        int lessonIndex = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        if (lessonIndex < 1 || lessonIndex > lessons.size()) {
+            System.out.println("Invalid selection. Please try again.");
+            return;
+        }
+        Lesson selectedLesson = lessons.get(lessonIndex - 1);
+        // Create and add the offering
+        Offering offering = new Offering(false, selectedLesson, this);
+        Offerings.addOffering(offering);
+
+        // Display confirmation message with full offering details
+        System.out.println("Offering created successfully with the following details:");
+        System.out.println("Offering Details:");
+        selectedLesson.displayLessonDetails(); // Include lesson details
+        System.out.println("Instructor: " + this.getName());
+        System.out.println("Status: " + offering.getOfferingStatus());
     }
+    public void viewAllOfferings() {
+        System.out.println("All Offerings:");
+        Offerings.displayOfferings(); // Ensure Offerings has a method to display all offerings
+    }
+
+    // View lessons not associated with any offering
+    public void viewUnassociatedLessons(Lessons lessons) {
+        System.out.println("Lessons Not Associated with Any Offering:");
+        lessons.displayCancellableLessons(); // Displays lessons not tied to offerings
+    }
+
 }

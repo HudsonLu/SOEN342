@@ -1,12 +1,39 @@
 // User.java
 package User;
+
+import jakarta.persistence.*;
+
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "Users")
 public abstract class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
 
-    public User(String name, String phoneNumber) {
+    @Column(nullable = false)
+    private String role;
+    // Default constructor required by Hibernate
+    protected User() {}
+
+    public User(String name, String phoneNumber, String role) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
+
+    // Getters and setters
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -23,5 +50,21 @@ public abstract class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    // Abstract method for role-specific actions
+    public abstract void performRoleSpecificActions();
+
+    // Method to validate credentials
+    public boolean validateCredentials(String name, String phoneNumber) {
+        return this.name.equals(name) && this.phoneNumber.equals(phoneNumber);
     }
 }
