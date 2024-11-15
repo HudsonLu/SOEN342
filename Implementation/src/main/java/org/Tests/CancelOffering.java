@@ -10,7 +10,7 @@ public class CancelOffering {
     public static void main(String[] args) {
         // Initialize spaces and lessons
         Spaces spaces = new Spaces();
-        Lessons lessons = new Lessons(spaces);
+        Lessons lessons = new Lessons();
 
         // Add offerings for demonstration
         Instructor instructor1 = new Instructor("John Doe", "123-456-7890", "Yoga", List.of("Montreal"));

@@ -10,7 +10,7 @@ public class MainMenu {
     public static void main(String[] args) {
         // Initialize Spaces and Lessons
         Spaces spaces = new Spaces();
-        Lessons lessons = new Lessons(spaces);
+        Lessons lessons = new Lessons();
 
         // Retrieve instructor from repository
         User user = Users.getUserByNameAndPhone("John Doe", "123-456-7890");

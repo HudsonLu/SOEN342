@@ -35,6 +35,9 @@
         <mapping class="User.Instructor"/>
         <mapping class="User.Administrator"/>
         <mapping class="User.User"/>
+        <mapping class="Lesson.Space"/>
+        <mapping class="Lesson.Lesson"/>
+
 
 
 

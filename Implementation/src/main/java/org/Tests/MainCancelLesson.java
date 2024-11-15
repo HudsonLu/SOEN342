@@ -11,7 +11,7 @@ public class MainCancelLesson {
         Spaces spaces = new Spaces();
 
         // Initialize lessons
-        Lessons lessons = new Lessons(spaces);
+        Lessons lessons = new Lessons();
 
         // Create offerings associated with lessons
         Instructor instructor1 = new Instructor("John Doe", "123-456-7890", "Yoga", List.of("Montreal"));

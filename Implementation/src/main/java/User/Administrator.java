@@ -65,7 +65,7 @@ public class Administrator extends User {
     // Overloaded constructor for simpler creation
     public Administrator(String name, String phoneNumber) {
         super(name, phoneNumber, "Administrator");
-        this.lessons = new Lessons(new Spaces()); // Default Lessons instance
+        this.lessons = new Lessons(); // Default Lessons instance
         this.spaces = new Spaces();               // Default Spaces instance
     }
 

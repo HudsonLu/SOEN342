@@ -7,7 +7,7 @@ public class MainTest {
     public static void main(String[] args) {
         // Initialize Spaces and Lessons
         Spaces spaces = new Spaces();
-        Lessons lessons = new Lessons(spaces);
+        Lessons lessons = new Lessons();
 
         // Initialize Administrator
         Administrator admin = new Administrator("Admin Alice", "111-222-3333", lessons, spaces);

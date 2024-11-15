@@ -13,7 +13,7 @@ public class Main1 {
 
         // Initialize Spaces, Lessons, and Offerings
         Spaces spaces = new Spaces();
-        Lessons lessons = new Lessons(spaces);
+        Lessons lessons = new Lessons();
 
         // Add sample users
         Users.addUser(new Administrator("Admin Alice", "111-222-3333"));

@@ -1,5 +1,6 @@
 package DAO;
 
+import Lesson.Space;
 import User.Administrator;
 import User.Client;
 import User.Instructor;
@@ -7,6 +8,9 @@ import User.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,6 +85,20 @@ public class ReloadDB {
         } else {
             System.out.println("No users found.");
         }
+    }
+
+    @Test
+    public void CreateSpaces() {
+        SpacesDAO SpacesDAO = new SpacesDAO();
+
+
+        Space x1 = new Space(true, LocalTime.of(12, 0), LocalTime.of(15, 0), "Montreal", "EV-Building Gym Room 7", Arrays.asList(DayOfWeek.SUNDAY));
+        Space x2 = new Space(true, LocalTime.of(10, 0), LocalTime.of(14, 0), "Toronto", "Room A1", Arrays.asList(DayOfWeek.SATURDAY));
+        Space x3 = new Space(true, LocalTime.of(9, 0), LocalTime.of(12, 0), "Vancouver", "Conference Hall 3", Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY));
+
+        SpacesDAO.saveSpace(x1);
+        SpacesDAO.saveSpace(x2);
+        SpacesDAO.saveSpace(x3);
     }
 
 }

@@ -1,25 +1,43 @@
 // Lesson.java
 package Lesson;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-
+@Entity
+@Table(name = "Lesson")
 public class Lesson {
-    private LocalTime startTime;     // Time when the lesson starts
-    private LocalTime endTime;       // Time when the lesson ends
-    private boolean isAvailable;     // Indicates if the lesson is available
-    private String lessonName;       // Name of the lesson
-    private boolean isPrivate;       // True if private, false if group
-    private Space space;             // Space where the lesson is held
-    private DayOfWeek dayOfWeek;     // Day of the week the lesson occurs
-    private String dateRange;        // Overall date range as a string (e.g., "Sep 1 - Nov 30, 2024")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(nullable = false)
+    private LocalTime startTime;
 
-    // Constructor
+    @Column(nullable = false)
+    private LocalTime endTime;
+
+    @Column(nullable = false)
+    private boolean isAvailable;
+
+    @Column(nullable = false)
+    private String lessonName;
+
+    @Column(nullable = false)
+    private boolean isPrivate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DayOfWeek dayOfWeek;
+
+    @Column(nullable = false)
+    private String dateRange;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "space_id", nullable = false)
+    private Space space;
+
     public Lesson(LocalTime startTime, LocalTime endTime, boolean isAvailable, String lessonName, boolean isPrivate, Space space, DayOfWeek dayOfWeek, String dateRange) {
         this.startTime = startTime;
         this.endTime = endTime;
@@ -31,11 +49,13 @@ public class Lesson {
         this.dateRange = dateRange;
     }
 
-    public Lesson() {
+    public Lesson() {}
 
+    // Getters and setters
+    public Long getId() {
+        return id;
     }
 
-    // Getters and Setters
     public LocalTime getStartTime() {
         return startTime;
     }
@@ -72,8 +92,8 @@ public class Lesson {
         return isPrivate;
     }
 
-    public void setPrivate(boolean isPrivate) {
-        this.isPrivate = isPrivate;
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
     }
 
     public Space getSpace() {
@@ -100,7 +120,6 @@ public class Lesson {
         this.dateRange = dateRange;
     }
 
-    // Method to display lesson details
     public void displayLessonDetails() {
         System.out.println("Lesson Name: " + lessonName);
         System.out.println("Day: " + dayOfWeek);
@@ -111,6 +130,6 @@ public class Lesson {
         System.out.println("Date Range: " + dateRange);
         System.out.println("Location: " + (space != null ? space.getDetails() : "Not Assigned"));
     }
-
 }
+
 

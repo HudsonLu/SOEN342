@@ -17,7 +17,7 @@ public class Main {
 
         // Initialize Spaces, Lessons, and Offerings
         Spaces spaces = new Spaces();
-        Lessons lessons = new Lessons(spaces);
+        Lessons lessons = new Lessons();
 
         // Main Menu Loop
         while (true) {
