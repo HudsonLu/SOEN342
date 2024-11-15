@@ -24,8 +24,8 @@ The following operations are part of the **Process Offerings** use case:
 
 ## Contract CO2: View Lessons Process
 
-| **Operation:**        | `viewLessons()`                              |
-|-----------------------|---------------------------------------------------------- ------|
+| **Operation:**        | `viewLessons()`                                                 |
+|-----------------------|-----------------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                                     |
 | **Pre-conditions:**   | - Instructor has logged in                                      |
 | **Post-conditions:**  | - If valid, the user successfully logs in (association formed). |
