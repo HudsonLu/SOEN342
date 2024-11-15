@@ -9,12 +9,11 @@ import java.util.List;
 
 public class OfferingDAO {
 
-    // Save an Offering
     public void saveOffering(Offering offering) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.persist(offering);
+            session.merge(offering); // Use merge to update existing entities
             transaction.commit();
             System.out.println("Offering saved with ID: " + offering.getId());
         } catch (Exception e) {
@@ -22,6 +21,7 @@ public class OfferingDAO {
                 transaction.rollback();
             }
             e.printStackTrace();
+            throw new IllegalStateException("Error saving offering to the database", e);
         }
     }
 

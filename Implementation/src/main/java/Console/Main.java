@@ -2,6 +2,8 @@
 package Console;
 
 import Authentication.Users;
+import Booking.Offering;
+import Booking.OfferingStatus;
 import User.*;
 import Catalog.*;
 
@@ -106,7 +108,7 @@ public class Main {
             System.out.println("Administrator Dashboard");
             System.out.println("1. View All Lessons");
             System.out.println("2. Cancel a Lesson");
-            System.out.println("2. Cancel an Offering");
+            System.out.println("3. Manage Offerings");
             System.out.println("4. Manage Accounts");
             System.out.println("5. View All Offerings");
             System.out.println("6. Create a Lesson");
@@ -120,7 +122,7 @@ public class Main {
             switch (choice) {
                 case 1 -> lessons.displayAllLessons();
                 case 2 -> admin.cancelLesson(lessons.getLessons());
-                //case 3 -> admin.cancelOffering();
+                case 3 -> manageOfferings(scanner, admin);
                 case 4 -> {
                     System.out.println("1. View Accounts");
                     System.out.println("2. Delete an Account");
@@ -151,6 +153,98 @@ public class Main {
         }
     }
 
+    private static void manageOfferings(Scanner scanner, Administrator admin) {
+        while (true) {
+            System.out.println("Manage Offerings");
+            System.out.println("1. View All Offerings");
+            System.out.println("2. Cancel an Offering");
+            System.out.println("3. Change Offering Availability");
+            System.out.println("4. Back to Dashboard");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1 -> admin.viewAllOfferings();
+                case 2 -> {
+                    System.out.println("Offerings Available for Cancellation:");
+                    List<Offering> cancellableOfferings = Offerings.getCancellableOfferings();
+                    if (cancellableOfferings.isEmpty()) {
+                        System.out.println("No offerings available for cancellation.");
+                        break;
+                    }
+
+                    for (int i = 0; i < cancellableOfferings.size(); i++) {
+                        Offering offering = cancellableOfferings.get(i);
+                        System.out.println((i + 1) + ". " + offering.getLesson().getLessonName() +
+                                " | Instructor: " + offering.getInstructor().getName() +
+                                " | Status: " + offering.getOfferingStatus());
+                    }
+
+                    System.out.print("Enter the index of the offering to cancel: ");
+                    int index = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    if (index < 1 || index > cancellableOfferings.size()) {
+                        System.out.println("Invalid selection. Operation canceled.");
+                    } else {
+                        Offerings.cancelOffering(index);
+                        System.out.println("Offering canceled successfully.");
+                    }
+                }
+                case 3 -> {
+                    System.out.println("Offerings Available for Status Change:");
+                    List<Offering> allOfferings = Offerings.getAllOfferings();
+
+                    if (allOfferings.isEmpty()) {
+                        System.out.println("No offerings available.");
+                        break;
+                    }
+
+                    for (int i = 0; i < allOfferings.size(); i++) {
+                        Offering offering = allOfferings.get(i);
+                        System.out.println((i + 1) + ". " + offering.getLesson().getLessonName() +
+                                " | Instructor: " + offering.getInstructor().getName() +
+                                " | Status: " + offering.getOfferingStatus());
+                    }
+
+                    System.out.print("Enter the index of the offering to change status: ");
+                    int index = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    if (index < 1 || index > allOfferings.size()) {
+                        System.out.println("Invalid selection. Operation canceled.");
+                    } else {
+                        Offering selectedOffering = allOfferings.get(index - 1);
+                        System.out.println("Current Status: " + selectedOffering.getOfferingStatus());
+                        System.out.println("Enter new status (1: AVAILABLE_TO_INSTRUCTORS, 2: AVAILABLE_TO_PUBLIC, 3: UNAVAILABLE): ");
+                        int statusChoice = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+
+                        switch (statusChoice) {
+                            case 1 -> selectedOffering.setOfferingStatus(OfferingStatus.AVAILABLE_TO_INSTRUCTORS);
+                            case 2 -> selectedOffering.setOfferingStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
+                            case 3 -> selectedOffering.setOfferingStatus(OfferingStatus.UNAVAILABLE);
+                            default -> {
+                                System.out.println("Invalid status. Operation canceled.");
+                                break;
+                            }
+                        }
+
+                        Offerings.addOffering(selectedOffering); // Update the offering in the database
+                        System.out.println("Offering status updated successfully.");
+                    }
+                }
+                case 4 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+
     private static void clientDashboard(Scanner scanner, Client client) {
         while (true) {
             System.out.println("Client Dashboard");
@@ -167,10 +261,11 @@ public class Main {
             switch (choice) {
                 case 1 -> Offerings.displayPublicOfferings();
                 case 2 -> {
+                    Offerings.displayPublicOfferings();
                     System.out.println("Select an offering to book (Enter the index):");
                     int index = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
-                    Offerings.bookOffering(index, client.getName());
+                    Offerings.bookOffering(index, client);
                 }
                 case 3 -> client.cancelBooking();
                 case 4 -> client.viewPersonalBookings();

@@ -4,7 +4,11 @@ import Booking.Booking;
 import Booking.Offering;
 import Booking.OfferingStatus;
 import Catalog.Offerings;
+import DAO.BookingDAO;
+import Utils.HibernateUtil;
 import jakarta.persistence.*;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +18,7 @@ import java.util.Scanner;
 @Table(name = "Client")
 public class Client extends User {
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Booking> bookings = new ArrayList<>();
 
     public Client(String name, String phoneNumber) {
@@ -28,9 +32,11 @@ public class Client extends User {
         return bookings;
     }
 
-    // View personal bookings
     public void viewPersonalBookings() {
-        if (bookings.isEmpty()) {
+        BookingDAO bookingDAO = new BookingDAO();
+        List<Booking> bookings = bookingDAO.getClientBookings(this.getId());
+
+        if (bookings == null || bookings.isEmpty()) {
             System.out.println("No personal bookings available.");
             return;
         }
@@ -39,12 +45,13 @@ public class Client extends User {
         for (int i = 0; i < bookings.size(); i++) {
             Booking booking = bookings.get(i);
             System.out.println("Booking " + (i + 1) + ":");
-            booking.getOffering().getLesson().displayLessonDetails();
+            System.out.println("Lesson: " + booking.getOffering().getLesson().getLessonName());
             System.out.println("Instructor: " + booking.getOffering().getInstructor().getName());
-            System.out.println("Booking Date: " + booking.getBookingDateTime());
+            System.out.println("Date: " + booking.getBookingDateTime());
             System.out.println("--------------------------------");
         }
     }
+
 
     // Add a booking
     public void addBooking(Booking booking) {

@@ -15,10 +15,13 @@ import org.junit.Test;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
 public class BookingDAOTest {
+
 
     private Client testClient;
     private Instructor testInstructor;
@@ -28,6 +31,8 @@ public class BookingDAOTest {
     @Before
     public void setup() {
         // Clean up database before each test
+        Logger hibernateLogger = Logger.getLogger("org.hibernate");
+        hibernateLogger.setLevel(Level.SEVERE);
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.createNativeQuery("TRUNCATE TABLE Booking CASCADE").executeUpdate();

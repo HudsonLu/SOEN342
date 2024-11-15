@@ -4,15 +4,16 @@ package Catalog;
 import java.util.ArrayList;
 import java.util.List;
 import Booking.*;
+import DAO.BookingDAO;
 import DAO.OfferingDAO;
+import User.Client;
 
 public class Offerings {
 
     private static OfferingDAO offeringDAO = new OfferingDAO();
 
-    // Add an offering
     public static void addOffering(Offering offering) {
-        offeringDAO.saveOffering(offering);
+        new OfferingDAO().saveOffering(offering); // Ensure a new DAO instance is used
     }
 
     // Retrieve all offerings
@@ -77,7 +78,7 @@ public class Offerings {
         }
     }
 
-    public static void bookOffering(int index, String clientName) {
+    public static void bookOffering(int index, Client client) {
         List<Offering> publicOfferings = getOfferingsByStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
         if (index < 1 || index > publicOfferings.size()) {
             System.out.println("Invalid selection. Booking canceled.");
@@ -85,12 +86,22 @@ public class Offerings {
         }
 
         Offering offering = publicOfferings.get(index - 1);
-        offering.setOfferingStatus(OfferingStatus.FULLY_BOOKED); // Update status
-        offeringDAO.saveOffering(offering); // Persist changes to the database
+        offering.setOfferingStatus(OfferingStatus.FULLY_BOOKED); // Update offering status
 
-        System.out.println("Booking successful for client: " + clientName);
+        // Create a Booking instance
+        Booking booking = new Booking(client, offering);
+
+        // Save the Booking using BookingDAO
+        BookingDAO bookingDAO = new BookingDAO();
+        bookingDAO.saveBooking(booking);
+
+        // Persist the updated Offering status
+        offeringDAO.saveOffering(offering);
+
+        System.out.println("Booking successful for client: " + client.getName());
         System.out.println("Offering Status updated to FULLY_BOOKED.");
     }
+
 
 
     // Get cancellable offerings (not booked yet)

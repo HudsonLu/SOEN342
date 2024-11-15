@@ -2,7 +2,9 @@
 package DAO;
 
 import Booking.Booking;
+import User.Client;
 import Utils.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -51,6 +53,17 @@ public class BookingDAO {
                 transaction.rollback();
             }
             e.printStackTrace();
+        }
+    }
+
+    public List<Booking> getClientBookings(Long clientId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Client client = session.get(Client.class, clientId);
+            Hibernate.initialize(client.getBookings()); // Initialize lazy collection
+            return client.getBookings();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
