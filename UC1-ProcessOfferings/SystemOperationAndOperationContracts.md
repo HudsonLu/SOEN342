@@ -1,43 +1,68 @@
 # System Operations: Use Case 1 - Process Offerings
 
-- `login(credentials)`
-- `makeOfferingAvailable(admin,lesson)`
-- `selectLesson(instructor,lesson)`
-- `viewOffering()`
+The following operations are part of the **Process Offerings** use case:
+
+- `initiateOfferingProcess()`
+- `viewLessons()`
+- `selectLesson(instructor, lesson)`
+- `makeOfferingAvailable(administrator, lesson)`
+- `viewOfferings()`
+
+---
 
 # Operation Contracts
 
-## Contract CO1: login
+## Contract CO1: Initiate Offering Process
 
-| **Operation:**       | `login(userID, phoneNumber)`                          |
-|----------------------|----------------------------------------------------|
-| **Cross References:** | Use case Process Offerings                        |
-| **Pre-conditions:**  | Credentials (`userID`, `phoneNumber`) must be provided |
-| **Post-conditions:** | If valid, the user successfully logs in. Otherwise, an error message will be displayed. |
+| **Operation:**        | `initiateOfferingProcess()`                              |
+|-----------------------|----------------------------------------------------------|
+| **Cross References:** | Use Case: Process Offerings                              |
+| **Pre-conditions:**   | - Administrator has logged in.                           |
+| **Post-conditions:**  | - If valid, the user successfully logs in (association formed). |
 
+---
 
-## Contract CO2: makeOfferingAvailable
+## Contract CO2: View Lessons 
 
-| **Operation:**       | `makeOfferingAvailable(admin,lesson)`                          |
-|----------------------|----------------------------------------------------|
-| **Cross References:** | Use case Process Offerings                        |
-| **Pre-conditions:**  | Offer(s) exist(s) |
-| **Post-conditions:** | Offer's attribute availability was modified (modification of attribute)|
+| **Operation:**        | `viewLessons()`                              |
+|-----------------------|---------------------------------------------------------- ------|
+| **Cross References:** | Use Case: Process Offerings                                     |
+| **Pre-conditions:**   | - Instructor has logged in                                      |
+| **Post-conditions:**  | - If valid, the user successfully logs in (association formed). |
 
+---
 
-## Contract CO3: selectLesson
+## Contract CO3: Select Lesson
 
-| **Operation:**       | `selectLesson (instructor,lesson)`                          |
-|----------------------|----------------------------------------------------|
-| **Cross References:** | Use case Process Offerings                        |
-| **Pre-conditions:**  | Offer(s) exist(s) |
-| **Post-conditions:** | Offer is associated with Instructor (association formed) |
+| **Operation:**        | `selectLesson(instructor, lesson)`                       |
+|-----------------------|----------------------------------------------------------|
+| **Cross References:** | Use Case: Process Offerings                              |
+| **Pre-conditions:**   | - Instructor has been authenticated by the system.       |
+|                       | - `Lesson` and `Instructor` objects exist.               |
+|                       | - No other offering exists for the same `Lesson` with the same instructor. |
+| **Post-conditions:**  | - An instance of `Offering` is created.                  |
+|                       | - The `Offering` is associated with the `Instructor`.    |
+|                       | - The `Offering` is associated with the `Lesson`.        |
+|                       | - The `id` attribute is initialized in the `Offering`.   |
+|                       | - The `Offering` availability is set to "Unavailable".   |
 
+---
 
-## Contract CO4: viewOffering
+## Contract CO4: Make Offering Available
 
-| **Operation:**       | `viewOffering()`                          |
-|----------------------|----------------------------------------------------|
-| **Cross References:** | Use case Process Offerings                        |
-| **Pre-conditions:**  | Offers are valid |
-| **Post-conditions:** | Offers can be viewed|
+| **Operation:**        | `makeOfferingAvailable(admin, lesson)`                  |
+|-----------------------|----------------------------------------------------------|
+| **Cross References:** | Use Case: Process Offerings                              |
+| **Pre-conditions:**   | - The `Offering` object exists.                          |
+|                       | - Administrator has been authenticated by the system.    |
+| **Post-conditions:**  | - The `Offering`'s availability attribute is updated.    |
+
+---
+
+## Contract CO5: View Offering
+
+| **Operation:**        | `viewOffering()`                                         |
+|-----------------------|----------------------------------------------------------|
+| **Cross References:** | Use Case: Process Offerings                              |
+| **Pre-conditions:**   | - The `Offering` object exists.                          |
+| **Post-conditions:**  | - Offerings are displayed for viewing.                   |
