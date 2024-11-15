@@ -40,11 +40,7 @@ The following operations are part of the **Process Offerings** use case:
 | **Pre-conditions:**   | - Instructor has been authenticated by the system.       |
 |                       | - `Lesson` and `Instructor` objects exist.               |
 |                       | - No other offering exists for the same `Lesson` with the same instructor. |
-| **Post-conditions:**  | - An instance of `Offering` is created (instance creation).                  |
-|                       | - The `Offering` is associated with the `Instructor` (association formed).    |
-|                       | - The `Offering` is associated with the `Lesson` (association formed).        |
-|                       | - The `id` attribute is initialized in the `Offering` (attribute modification).   |
-|                       | - The `Offering` availability is set to "Unavailable" (attribute modification).   |
+| **Post-conditions:**  | - An instance of `Offering` is created (instance creation).   <br> - The `Offering` is associated with the `Instructor` (association formed).  <br> - The `Offering` is associated with the `Lesson` (association formed).  <br> - The `id` attribute is initialized in the `Offering` (attribute modification). <br> - The `Offering` availability is set to "Unavailable" (attribute modification).   |
 
 ---
 
@@ -53,8 +49,7 @@ The following operations are part of the **Process Offerings** use case:
 | **Operation:**        | `makeOfferingAvailable(admin, lesson)`                  |
 |-----------------------|----------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                              |
-| **Pre-conditions:**   | - The `Offering` object exists.                          |
-|                       | - Administrator has been authenticated by the system.    |
+| **Pre-conditions:**   | - The `Offering` object exists. <br> - Administrator has been authenticated by the system.    |
 | **Post-conditions:**  | - The `Offering`'s availability attribute is updated(attribute modification). |
 
 ---
