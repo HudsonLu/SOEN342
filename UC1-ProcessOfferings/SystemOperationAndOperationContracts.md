@@ -5,7 +5,7 @@ The following operations are part of the **Process Offerings** use case:
 - `initiateOfferingProcess()`
 - `viewLessons()`
 - `selectLesson(instructor, lesson)`
-- `makeOfferingAvailable(administrator, offering)`
+- `makeOfferingAvailable(offering)`
 - `viewOfferings()`
 
 ---
@@ -46,7 +46,7 @@ The following operations are part of the **Process Offerings** use case:
 
 ## Contract CO4: Make Offering Available
 
-| **Operation:**        | `makeOfferingAvailable(admin, lesson)`                  |
+| **Operation:**        | `makeOfferingAvailable(offering)`                  |
 |-----------------------|----------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                              |
 | **Pre-conditions:**   | - The `Offering` object exists. <br> - Administrator has been authenticated by the system.    |
