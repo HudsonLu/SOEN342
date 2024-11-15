@@ -41,6 +41,8 @@ public class UserDAO {
     public void truncateTables() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
+            session.createNativeQuery("TRUNCATE TABLE Administrator CASCADE").executeUpdate();
+            session.createNativeQuery("TRUNCATE TABLE Instructor CASCADE").executeUpdate();
             session.createNativeQuery("TRUNCATE TABLE Client CASCADE").executeUpdate();
             session.createNativeQuery("TRUNCATE TABLE Users CASCADE").executeUpdate();
             transaction.commit();

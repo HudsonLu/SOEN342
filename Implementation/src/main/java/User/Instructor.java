@@ -5,10 +5,7 @@ import Catalog.Lessons;
 import Catalog.Offerings;
 import Booking.Offering;
 import Lesson.Lesson;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 
 import java.util.List;
@@ -18,11 +15,13 @@ import java.util.Scanner;
 @Table(name = "Instructor")
 public class Instructor extends User {
     private String specialization;
-    @Transient
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "Instructor_Cities", // Name of the table to store the cities
+            joinColumns = @JoinColumn(name = "instructor_id") // Foreign key to the Instructor table
+    )
+    @Column(name = "city") // Name of the column to store the cities
     private List<String> cities;
-
-    @Id
-    private Long id;
 
     public Instructor(String name, String phoneNumber, String specialization, List<String> cities) {
         super(name, phoneNumber, "Instructor");

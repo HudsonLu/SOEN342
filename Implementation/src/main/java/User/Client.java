@@ -17,8 +17,6 @@ import java.util.Scanner;
 public class Client extends User {
     @Transient
     private List<Offering> bookings; // List of bookings made by the client
-    @Id
-    private Long id;
 
     public Client(String name, String phoneNumber) {
         super(name, phoneNumber, "Client");
@@ -121,11 +119,4 @@ public class Client extends User {
         Offerings.bookOffering(index, this.getName());
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }

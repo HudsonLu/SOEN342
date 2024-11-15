@@ -20,8 +20,6 @@ import java.util.Scanner;
 @Table(name = "Administrator")
 public class Administrator extends User {
 
-    @Id
-    private Long id;
     @Transient
     private Lessons lessons;
     @Transient

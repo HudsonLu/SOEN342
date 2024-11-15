@@ -5,20 +5,19 @@ import Catalog.*;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
 
     public static void main(String[] args) {
+        Logger hibernateLogger = Logger.getLogger("org.hibernate");
+        hibernateLogger.setLevel(Level.SEVERE);
         Scanner scanner = new Scanner(System.in);
 
         // Initialize Spaces, Lessons, and Offerings
         Spaces spaces = new Spaces();
         Lessons lessons = new Lessons(spaces);
-
-        // Add sample users
-        Users.addUser(new Administrator("Admin Alice", "111-222-3333"));
-        Users.addUser(new Client("Bob", "987-654-3210"));
-        Users.addUser(new Instructor("John Doe", "123-456-7890", "Yoga", List.of("Montreal", "Toronto")));
 
         // Main Menu Loop
         while (true) {
