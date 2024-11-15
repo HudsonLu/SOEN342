@@ -1,43 +1,41 @@
+// Offerings.java
 package Catalog;
 
 import java.util.ArrayList;
 import java.util.List;
 import Booking.*;
+import DAO.OfferingDAO;
 
 public class Offerings {
-    private static final List<Offering> offerings = new ArrayList<>();
+
+    private static OfferingDAO offeringDAO = new OfferingDAO();
 
     // Add an offering
     public static void addOffering(Offering offering) {
-        offerings.add(offering);
+        offeringDAO.saveOffering(offering);
     }
 
     // Retrieve all offerings
     public static List<Offering> getAllOfferings() {
-        return offerings;
+        return offeringDAO.getAllOfferings();
     }
 
     // Retrieve offerings with a specific status
     public static List<Offering> getOfferingsByStatus(OfferingStatus status) {
-        List<Offering> filteredOfferings = new ArrayList<>();
-        for (Offering offering : offerings) {
-            if (offering.getOfferingStatus() == status) {
-                filteredOfferings.add(offering);
-            }
-        }
-        return filteredOfferings;
+        return offeringDAO.getAllOfferings().stream()
+                .filter(offering -> offering.getOfferingStatus() == status)
+                .toList();
     }
 
     // Display all offerings
     public static void displayOfferings() {
+        List<Offering> offerings = getAllOfferings();
         if (offerings.isEmpty()) {
             System.out.println("No offerings available.");
             return;
         }
 
-        for (int i = 0; i < offerings.size(); i++) {
-            System.out.println("Offering " + (i + 1) + ":");
-            Offering offering = offerings.get(i);
+        for (Offering offering : offerings) {
             offering.getLesson().displayLessonDetails();
             System.out.println("Instructor: " + offering.getInstructor().getName());
             System.out.println("Status: " + offering.getOfferingStatus());
@@ -79,7 +77,6 @@ public class Offerings {
         }
     }
 
-    // Book an offering
     public static void bookOffering(int index, String clientName) {
         List<Offering> publicOfferings = getOfferingsByStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
         if (index < 1 || index > publicOfferings.size()) {
@@ -88,20 +85,19 @@ public class Offerings {
         }
 
         Offering offering = publicOfferings.get(index - 1);
-        offering.setOfferingStatus(OfferingStatus.FULLY_BOOKED);
+        offering.setOfferingStatus(OfferingStatus.FULLY_BOOKED); // Update status
+        offeringDAO.saveOffering(offering); // Persist changes to the database
+
         System.out.println("Booking successful for client: " + clientName);
         System.out.println("Offering Status updated to FULLY_BOOKED.");
     }
 
+
     // Get cancellable offerings (not booked yet)
     public static List<Offering> getCancellableOfferings() {
-        List<Offering> cancellableOfferings = new ArrayList<>();
-        for (Offering offering : offerings) {
-            if (offering.getOfferingStatus() == OfferingStatus.AVAILABLE_TO_PUBLIC) {
-                cancellableOfferings.add(offering);
-            }
-        }
-        return cancellableOfferings;
+        return offeringDAO.getAllOfferings().stream()
+                .filter(offering -> offering.getOfferingStatus() == OfferingStatus.AVAILABLE_TO_PUBLIC)
+                .toList();
     }
 
     // Display cancellable offerings
@@ -122,7 +118,6 @@ public class Offerings {
         }
     }
 
-    // Cancel an offering
     public static void cancelOffering(int index) {
         List<Offering> cancellableOfferings = getCancellableOfferings();
         if (index < 1 || index > cancellableOfferings.size()) {
@@ -131,9 +126,11 @@ public class Offerings {
         }
 
         Offering offeringToCancel = cancellableOfferings.get(index - 1);
-        offerings.remove(offeringToCancel); // Remove offering from the list
+        offeringToCancel.setOfferingStatus(OfferingStatus.UNAVAILABLE); // Update status
+        offeringDAO.saveOffering(offeringToCancel); // Persist changes to the database
 
         System.out.println("Offering canceled successfully.");
     }
+
 
 }

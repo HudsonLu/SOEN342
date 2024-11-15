@@ -28,7 +28,7 @@ public class MainOfferingAvailable {
             admin.performRoleSpecificActions();
 
             // Update offerings to AVAILABLE_TO_PUBLIC
-            admin.updateOfferingsToAvailable();
+            //admin.updateOfferingsToAvailable();
 
             // Display all offerings after update
             System.out.println("\nCurrent Offerings:");

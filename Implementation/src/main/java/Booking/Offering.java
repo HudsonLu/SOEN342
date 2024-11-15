@@ -3,19 +3,33 @@ package Booking;
 
 import User.Instructor;
 import Lesson.Lesson;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-
-
+@Entity
+@Table(name = "Offerings")
 public class Offering {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private boolean isAvailable;
+
+    @ManyToOne
+    @JoinColumn(name = "lesson_id", nullable = false)
     private Lesson lesson;
+
+    @ManyToOne
+    @JoinColumn(name = "instructor_id", nullable = false)
     private Instructor instructor;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private OfferingStatus offeringStatus;
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+
+    public Offering() {
+        // Default constructor for JPA
     }
 
     public Offering(boolean isAvailable, Lesson lesson, Instructor instructor) {
@@ -25,11 +39,11 @@ public class Offering {
         this.isAvailable = isAvailable;
         this.lesson = lesson;
         this.instructor = instructor;
-        this.offeringStatus = OfferingStatus.UNAVAILABLE; // Set initial status to UNAVAILABLE
+        this.offeringStatus = OfferingStatus.UNAVAILABLE; // Default status
     }
 
-    public Offering() {
-
+    public Long getId() {
+        return id;
     }
 
     public boolean isAvailable() {
@@ -44,16 +58,23 @@ public class Offering {
         return lesson;
     }
 
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
+    }
+
     public Instructor getInstructor() {
         return instructor;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
 
     public OfferingStatus getOfferingStatus() {
         return offeringStatus;
     }
 
-    public void setOfferingStatus(OfferingStatus status) {
-        this.offeringStatus = status;
+    public void setOfferingStatus(OfferingStatus offeringStatus) {
+        this.offeringStatus = offeringStatus;
     }
-
 }

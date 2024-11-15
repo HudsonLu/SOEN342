@@ -10,11 +10,11 @@ public class MainTest {
         Lessons lessons = new Lessons();
 
         // Initialize Administrator
-        Administrator admin = new Administrator("Admin Alice", "111-222-3333", lessons, spaces);
+       // Administrator admin = new Administrator("Admin Alice", "111-222-3333", lessons, spaces);
 
         // Display Administrator actions
         System.out.println("Administrator Role Actions:");
-        admin.performRoleSpecificActions();
+        //admin.performRoleSpecificActions();
 
         // Create a lesson
         System.out.println("\nAdmin: Create a new lesson.");

@@ -128,8 +128,8 @@ public class Main1 {
 
             switch (choice) {
                 case 1 -> lessons.displayAllLessons();
-                case 2 -> admin.cancelLesson();
-                case 3 -> admin.cancelOffering();
+                //case 2 -> admin.cancelLesson();
+                //case 3 -> admin.cancelOffering();
                 case 4 -> {
                     System.out.println("1. View Accounts");
                     System.out.println("2. Delete an Account");
@@ -149,8 +149,8 @@ public class Main1 {
                     }
                 }
                 case 5 -> admin.viewAllOfferings();
-                case 6 -> admin.createLesson();
-                case 7 -> admin.viewSpaces(spaces);
+                //case 6 -> admin.createLesson();
+                //case 7 -> admin.viewSpaces(spaces);
                 case 8 -> {
                     System.out.println("Logging out...");
                     return;

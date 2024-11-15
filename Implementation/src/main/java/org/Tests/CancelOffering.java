@@ -32,7 +32,7 @@ public class CancelOffering {
             admin.performRoleSpecificActions();
 
             // Cancel an offering
-            admin.cancelOffering();
+            //admin.cancelOffering();
 
             // Display updated offerings
             System.out.println("\nUpdated Offerings:");

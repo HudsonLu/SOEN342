@@ -1,5 +1,7 @@
+// Main.java
 package Console;
-import Authentication.*;
+
+import Authentication.Users;
 import User.*;
 import Catalog.*;
 
@@ -15,7 +17,7 @@ public class Main {
         hibernateLogger.setLevel(Level.SEVERE);
         Scanner scanner = new Scanner(System.in);
 
-        // Initialize Spaces, Lessons, and Offerings
+        // Initialize Spaces, Lessons
         Spaces spaces = new Spaces();
         Lessons lessons = new Lessons();
 
@@ -32,7 +34,7 @@ public class Main {
             scanner.nextLine(); // Consume newline
 
             switch (choice) {
-                case 1 -> Offerings.displayCancellableOfferings();
+                case 1 -> Offerings.displayPublicOfferings();
                 case 2 -> login(scanner, lessons, spaces);
                 case 3 -> signUp(scanner);
                 case 4 -> {
@@ -57,12 +59,12 @@ public class Main {
             return;
         }
 
-        if (user instanceof Administrator) {
-            adminDashboard(scanner, lessons, spaces);
-        } else if (user instanceof Instructor) {
-            instructorDashboard(scanner, lessons, spaces);
-        } else if (user instanceof Client) {
-            clientDashboard(scanner);
+        if (user instanceof Administrator admin) {
+            adminDashboard(scanner, admin, lessons, spaces);
+        } else if (user instanceof Instructor instructor) {
+            instructorDashboard(scanner, instructor, lessons);
+        } else if (user instanceof Client client) {
+            clientDashboard(scanner, client);
         } else {
             System.out.println("Unknown user type. Contact system administrator.");
         }
@@ -72,7 +74,6 @@ public class Main {
         System.out.println("Sign Up:");
         System.out.println("1. Client");
         System.out.println("2. Instructor");
-        System.out.println("3. Administrator");
         System.out.print("Enter your choice: ");
 
         int choice = scanner.nextInt();
@@ -94,27 +95,18 @@ public class Main {
                 List<String> cities = List.of(scanner.nextLine().split(","));
                 Users.addUser(new Instructor(name, phoneNumber, specialization, cities));
             }
-            case 3 -> Users.addUser(new Administrator(name, phoneNumber));
-            default -> {
-                System.out.println("Invalid choice. Returning to Main Menu.");
-                return;
-            }
+            default -> System.out.println("Invalid choice. Returning to Main Menu.");
         }
 
         System.out.println("User registered successfully!");
     }
 
-
-
-
-    private static void adminDashboard(Scanner scanner, Lessons lessons, Spaces spaces) {
-        Administrator admin = (Administrator) Users.getUserByNameAndPhone("Admin Alice", "111-222-3333");
-
+    private static void adminDashboard(Scanner scanner, Administrator admin, Lessons lessons, Spaces spaces) {
         while (true) {
             System.out.println("Administrator Dashboard");
             System.out.println("1. View All Lessons");
             System.out.println("2. Cancel a Lesson");
-            System.out.println("3. Cancel an Offering");
+            System.out.println("2. Cancel an Offering");
             System.out.println("4. Manage Accounts");
             System.out.println("5. View All Offerings");
             System.out.println("6. Create a Lesson");
@@ -127,8 +119,8 @@ public class Main {
 
             switch (choice) {
                 case 1 -> lessons.displayAllLessons();
-                case 2 -> admin.cancelLesson();
-                case 3 -> admin.cancelOffering();
+                case 2 -> admin.cancelLesson(lessons.getLessons());
+                //case 3 -> admin.cancelOffering();
                 case 4 -> {
                     System.out.println("1. View Accounts");
                     System.out.println("2. Delete an Account");
@@ -148,8 +140,8 @@ public class Main {
                     }
                 }
                 case 5 -> admin.viewAllOfferings();
-                case 6 -> admin.createLesson();
-                case 7 -> admin.viewSpaces(spaces);
+                case 6 -> admin.createLesson(spaces.getSpaces(), lessons.getLessons());
+                case 7 -> admin.viewSpaces(spaces.getSpaces());
                 case 8 -> {
                     System.out.println("Logging out...");
                     return;
@@ -159,10 +151,7 @@ public class Main {
         }
     }
 
-
-    private static void clientDashboard(Scanner scanner) {
-        Client client = (Client) Users.getUserByNameAndPhone("Bob", "987-654-3210");
-
+    private static void clientDashboard(Scanner scanner, Client client) {
         while (true) {
             System.out.println("Client Dashboard");
             System.out.println("1. View Public Offerings");
@@ -176,7 +165,7 @@ public class Main {
             scanner.nextLine(); // Consume newline
 
             switch (choice) {
-                case 1 -> Offerings.displayCancellableOfferings();
+                case 1 -> Offerings.displayPublicOfferings();
                 case 2 -> {
                     System.out.println("Select an offering to book (Enter the index):");
                     int index = scanner.nextInt();
@@ -194,9 +183,7 @@ public class Main {
         }
     }
 
-    private static void instructorDashboard(Scanner scanner, Lessons lessons, Spaces spaces) {
-        Instructor instructor = (Instructor) Users.getUserByNameAndPhone("John Doe", "123-456-7890");
-
+    private static void instructorDashboard(Scanner scanner, Instructor instructor, Lessons lessons) {
         while (true) {
             System.out.println("Instructor Dashboard");
             System.out.println("1. Create an Offering");
@@ -220,6 +207,4 @@ public class Main {
             }
         }
     }
-
-
 }

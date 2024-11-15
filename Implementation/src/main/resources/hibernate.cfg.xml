@@ -37,6 +37,8 @@
         <mapping class="User.User"/>
         <mapping class="Lesson.Space"/>
         <mapping class="Lesson.Lesson"/>
+        <mapping class="Booking.Offering"/>
+        <mapping class="Booking.Booking"/>
 
 
 
