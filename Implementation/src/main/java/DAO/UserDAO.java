@@ -11,24 +11,59 @@ import java.util.List;
 
 public class UserDAO {
 
-    // Save a User (can be any subclass of User)
     public void saveUser(User user) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // Check if the phone number already exists
+            User existingUser = findByPhoneNumber(user.getPhoneNumber());
+            if (existingUser != null) {
+                System.out.println("A user with the phone number " + user.getPhoneNumber() + " already exists.");
+                return;
+            }
+
             transaction = session.beginTransaction();
-
-            // Save the User object
-            session.save(user);
-
+            session.persist(user); // Persist the user
             transaction.commit();
             System.out.println("Saved User with ID: " + user.getId());
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.rollback();
+                try {
+                    transaction.rollback();
+                } catch (Exception rollbackException) {
+                    System.err.println("Error during rollback: " + rollbackException.getMessage());
+                }
             }
+            e.printStackTrace();
+            throw new IllegalStateException("Error saving user to the database", e);
+        }
+    }
+
+    public void truncateTables() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.createNativeQuery("TRUNCATE TABLE Administrator CASCADE").executeUpdate();
+            session.createNativeQuery("TRUNCATE TABLE Instructor CASCADE").executeUpdate();
+            session.createNativeQuery("TRUNCATE TABLE Client CASCADE").executeUpdate();
+            session.createNativeQuery("TRUNCATE TABLE Users CASCADE").executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+    public User findByPhoneNumber(String phoneNumber) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM User WHERE phoneNumber = :phoneNumber", User.class)
+                    .setParameter("phoneNumber", phoneNumber)
+                    .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 
     // Fetch all Users from the database
     public List<User> getAllUsers() {

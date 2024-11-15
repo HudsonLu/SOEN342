@@ -1,24 +1,27 @@
+// Main.java
 package Console;
-import Authentication.*;
+
+import Authentication.Users;
+import Booking.Offering;
+import Booking.OfferingStatus;
 import User.*;
 import Catalog.*;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
 
     public static void main(String[] args) {
+        Logger hibernateLogger = Logger.getLogger("org.hibernate");
+        hibernateLogger.setLevel(Level.SEVERE);
         Scanner scanner = new Scanner(System.in);
 
-        // Initialize Spaces, Lessons, and Offerings
+        // Initialize Spaces, Lessons
         Spaces spaces = new Spaces();
-        Lessons lessons = new Lessons(spaces);
-
-        // Add sample users
-        Users.addUser(new Administrator("Admin Alice", "111-222-3333"));
-        Users.addUser(new Client("Bob", "987-654-3210"));
-        Users.addUser(new Instructor("John Doe", "123-456-7890", "Yoga", List.of("Montreal", "Toronto")));
+        Lessons lessons = new Lessons();
 
         // Main Menu Loop
         while (true) {
@@ -33,7 +36,7 @@ public class Main {
             scanner.nextLine(); // Consume newline
 
             switch (choice) {
-                case 1 -> Offerings.displayCancellableOfferings();
+                case 1 -> Offerings.displayPublicOfferings();
                 case 2 -> login(scanner, lessons, spaces);
                 case 3 -> signUp(scanner);
                 case 4 -> {
@@ -58,12 +61,12 @@ public class Main {
             return;
         }
 
-        if (user instanceof Administrator) {
-            adminDashboard(scanner, lessons, spaces);
-        } else if (user instanceof Instructor) {
-            instructorDashboard(scanner, lessons, spaces);
-        } else if (user instanceof Client) {
-            clientDashboard(scanner);
+        if (user instanceof Administrator admin) {
+            adminDashboard(scanner, admin, lessons, spaces);
+        } else if (user instanceof Instructor instructor) {
+            instructorDashboard(scanner, instructor, lessons);
+        } else if (user instanceof Client client) {
+            clientDashboard(scanner, client);
         } else {
             System.out.println("Unknown user type. Contact system administrator.");
         }
@@ -73,7 +76,6 @@ public class Main {
         System.out.println("Sign Up:");
         System.out.println("1. Client");
         System.out.println("2. Instructor");
-        System.out.println("3. Administrator");
         System.out.print("Enter your choice: ");
 
         int choice = scanner.nextInt();
@@ -95,27 +97,18 @@ public class Main {
                 List<String> cities = List.of(scanner.nextLine().split(","));
                 Users.addUser(new Instructor(name, phoneNumber, specialization, cities));
             }
-            case 3 -> Users.addUser(new Administrator(name, phoneNumber));
-            default -> {
-                System.out.println("Invalid choice. Returning to Main Menu.");
-                return;
-            }
+            default -> System.out.println("Invalid choice. Returning to Main Menu.");
         }
 
         System.out.println("User registered successfully!");
     }
 
-
-
-
-    private static void adminDashboard(Scanner scanner, Lessons lessons, Spaces spaces) {
-        Administrator admin = (Administrator) Users.getUserByNameAndPhone("Admin Alice", "111-222-3333");
-
+    private static void adminDashboard(Scanner scanner, Administrator admin, Lessons lessons, Spaces spaces) {
         while (true) {
             System.out.println("Administrator Dashboard");
             System.out.println("1. View All Lessons");
             System.out.println("2. Cancel a Lesson");
-            System.out.println("3. Cancel an Offering");
+            System.out.println("3. Manage Offerings");
             System.out.println("4. Manage Accounts");
             System.out.println("5. View All Offerings");
             System.out.println("6. Create a Lesson");
@@ -128,8 +121,8 @@ public class Main {
 
             switch (choice) {
                 case 1 -> lessons.displayAllLessons();
-                case 2 -> admin.cancelLesson();
-                case 3 -> admin.cancelOffering();
+                case 2 -> admin.cancelLesson(lessons.getLessons());
+                case 3 -> manageOfferings(scanner, admin);
                 case 4 -> {
                     System.out.println("1. View Accounts");
                     System.out.println("2. Delete an Account");
@@ -149,8 +142,8 @@ public class Main {
                     }
                 }
                 case 5 -> admin.viewAllOfferings();
-                case 6 -> admin.createLesson();
-                case 7 -> admin.viewSpaces(spaces);
+                case 6 -> admin.createLesson(spaces.getSpaces(), lessons.getLessons());
+                case 7 -> admin.viewSpaces(spaces.getSpaces());
                 case 8 -> {
                     System.out.println("Logging out...");
                     return;
@@ -160,10 +153,99 @@ public class Main {
         }
     }
 
+    private static void manageOfferings(Scanner scanner, Administrator admin) {
+        while (true) {
+            System.out.println("Manage Offerings");
+            System.out.println("1. View All Offerings");
+            System.out.println("2. Cancel an Offering");
+            System.out.println("3. Change Offering Availability");
+            System.out.println("4. Back to Dashboard");
+            System.out.print("Enter your choice: ");
 
-    private static void clientDashboard(Scanner scanner) {
-        Client client = (Client) Users.getUserByNameAndPhone("Bob", "987-654-3210");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
 
+            switch (choice) {
+                case 1 -> admin.viewAllOfferings();
+                case 2 -> {
+                    System.out.println("Offerings Available for Cancellation:");
+                    List<Offering> cancellableOfferings = Offerings.getCancellableOfferings();
+                    if (cancellableOfferings.isEmpty()) {
+                        System.out.println("No offerings available for cancellation.");
+                        break;
+                    }
+
+                    for (int i = 0; i < cancellableOfferings.size(); i++) {
+                        Offering offering = cancellableOfferings.get(i);
+                        System.out.println((i + 1) + ". " + offering.getLesson().getLessonName() +
+                                " | Instructor: " + offering.getInstructor().getName() +
+                                " | Status: " + offering.getOfferingStatus());
+                    }
+
+                    System.out.print("Enter the index of the offering to cancel: ");
+                    int index = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    if (index < 1 || index > cancellableOfferings.size()) {
+                        System.out.println("Invalid selection. Operation canceled.");
+                    } else {
+                        Offerings.cancelOffering(index);
+                        System.out.println("Offering canceled successfully.");
+                    }
+                }
+                case 3 -> {
+                    System.out.println("Offerings Available for Status Change:");
+                    List<Offering> allOfferings = Offerings.getAllOfferings();
+
+                    if (allOfferings.isEmpty()) {
+                        System.out.println("No offerings available.");
+                        break;
+                    }
+
+                    for (int i = 0; i < allOfferings.size(); i++) {
+                        Offering offering = allOfferings.get(i);
+                        System.out.println((i + 1) + ". " + offering.getLesson().getLessonName() +
+                                " | Instructor: " + offering.getInstructor().getName() +
+                                " | Status: " + offering.getOfferingStatus());
+                    }
+
+                    System.out.print("Enter the index of the offering to change status: ");
+                    int index = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    if (index < 1 || index > allOfferings.size()) {
+                        System.out.println("Invalid selection. Operation canceled.");
+                    } else {
+                        Offering selectedOffering = allOfferings.get(index - 1);
+                        System.out.println("Current Status: " + selectedOffering.getOfferingStatus());
+                        System.out.println("Enter new status (1: AVAILABLE_TO_INSTRUCTORS, 2: AVAILABLE_TO_PUBLIC, 3: UNAVAILABLE): ");
+                        int statusChoice = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+
+                        switch (statusChoice) {
+                            case 1 -> selectedOffering.setOfferingStatus(OfferingStatus.AVAILABLE_TO_INSTRUCTORS);
+                            case 2 -> selectedOffering.setOfferingStatus(OfferingStatus.AVAILABLE_TO_PUBLIC);
+                            case 3 -> selectedOffering.setOfferingStatus(OfferingStatus.UNAVAILABLE);
+                            default -> {
+                                System.out.println("Invalid status. Operation canceled.");
+                                break;
+                            }
+                        }
+
+                        Offerings.addOffering(selectedOffering); // Update the offering in the database
+                        System.out.println("Offering status updated successfully.");
+                    }
+                }
+                case 4 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+
+    private static void clientDashboard(Scanner scanner, Client client) {
         while (true) {
             System.out.println("Client Dashboard");
             System.out.println("1. View Public Offerings");
@@ -177,12 +259,13 @@ public class Main {
             scanner.nextLine(); // Consume newline
 
             switch (choice) {
-                case 1 -> Offerings.displayCancellableOfferings();
+                case 1 -> Offerings.displayPublicOfferings();
                 case 2 -> {
+                    Offerings.displayPublicOfferings();
                     System.out.println("Select an offering to book (Enter the index):");
                     int index = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
-                    Offerings.bookOffering(index, client.getName());
+                    Offerings.bookOffering(index, client);
                 }
                 case 3 -> client.cancelBooking();
                 case 4 -> client.viewPersonalBookings();
@@ -195,9 +278,7 @@ public class Main {
         }
     }
 
-    private static void instructorDashboard(Scanner scanner, Lessons lessons, Spaces spaces) {
-        Instructor instructor = (Instructor) Users.getUserByNameAndPhone("John Doe", "123-456-7890");
-
+    private static void instructorDashboard(Scanner scanner, Instructor instructor, Lessons lessons) {
         while (true) {
             System.out.println("Instructor Dashboard");
             System.out.println("1. Create an Offering");
@@ -221,6 +302,4 @@ public class Main {
             }
         }
     }
-
-
 }

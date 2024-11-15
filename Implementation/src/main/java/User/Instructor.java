@@ -5,12 +5,22 @@ import Catalog.Lessons;
 import Catalog.Offerings;
 import Booking.Offering;
 import Lesson.Lesson;
+import jakarta.persistence.*;
+
 
 import java.util.List;
 import java.util.Scanner;
 
+@Entity
+@Table(name = "Instructor")
 public class Instructor extends User {
     private String specialization;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "Instructor_Cities", // Name of the table to store the cities
+            joinColumns = @JoinColumn(name = "instructor_id") // Foreign key to the Instructor table
+    )
+    @Column(name = "city") // Name of the column to store the cities
     private List<String> cities;
 
     public Instructor(String name, String phoneNumber, String specialization, List<String> cities) {
@@ -22,6 +32,10 @@ public class Instructor extends User {
     // Overloaded constructor for simplicity
     public Instructor(String name, String phoneNumber) {
         this(name, phoneNumber, "Unknown", List.of());
+    }
+
+    public Instructor() {
+
     }
 
     public String getSpecialization() {

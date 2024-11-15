@@ -1,19 +1,41 @@
-// Space.java
 package Lesson;
 
-import java.time.LocalTime;
+import jakarta.persistence.*;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 
+@Entity
+@Table(name = "Spaces")
 public class Space {
-    private boolean isAvailable; // Indicates if the space is available
-    private LocalTime startTime; // Time of availability start
-    private LocalTime endTime;   // Time of availability end
-    private String city;         // City where the space is located
-    private String room;         // Room name or identifier
-    private List<DayOfWeek> availableDays; // Days of the week the space is available
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    // Constructor
+    @Column(nullable = false)
+    private boolean isAvailable;
+
+    @Column(nullable = false)
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    private LocalTime endTime;
+
+    @Column(nullable = false)
+    private String city;
+
+    @Column(nullable = false)
+    private String room;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "Space_Available_Days", joinColumns = @JoinColumn(name = "space_id"))
+    @Column(name = "day_of_week", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private List<DayOfWeek> availableDays;
+
+    // Constructors
+    public Space() {}
+
     public Space(boolean isAvailable, LocalTime startTime, LocalTime endTime, String city, String room, List<DayOfWeek> availableDays) {
         this.isAvailable = isAvailable;
         this.startTime = startTime;
@@ -24,6 +46,10 @@ public class Space {
     }
 
     // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
     public boolean isAvailable() {
         return isAvailable;
     }
@@ -72,7 +98,6 @@ public class Space {
         this.availableDays = availableDays;
     }
 
-    // Method to display space details
     public String getDetails() {
         return "Room: " + room + ", City: " + city +
                 ", Available: " + (isAvailable ? "Yes" : "No") +
