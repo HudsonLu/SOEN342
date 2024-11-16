@@ -5,7 +5,7 @@ The following operations are part of the **Process Offerings** use case:
 - `initiateOfferingProcess()`
 - `viewLessons()`
 - `selectLesson(instructor, lesson)`
-- `makeOfferingAvailable(administrator, lesson)`
+- `makeOfferingAvailable(offering)`
 - `viewOfferings()`
 
 ---
@@ -34,11 +34,11 @@ The following operations are part of the **Process Offerings** use case:
 
 ## Contract CO3: Select Lesson
 
-| **Operation:**        | `selectLesson(instructor, lesson)`                       |
+| **Operation:**        | `selectLesson(instructor, offering)`                       |
 |-----------------------|----------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                              |
 | **Pre-conditions:**   | - Instructor has been authenticated by the system.       |
-|                       | - `Lesson` and `Instructor` objects exist.               |
+|                       | - `Offering` and `Instructor` objects exist.               |
 |                       | - No other offering exists for the same `Lesson` with the same instructor. |
 | **Post-conditions:**  | - An instance of `Offering` is created (instance creation).   <br> - The `Offering` is associated with the `Instructor` (association formed).  <br> - The `Offering` is associated with the `Lesson` (association formed).  <br> - The `id` attribute is initialized in the `Offering` (attribute modification). <br> - The `Offering` availability is set to "Unavailable" (attribute modification).   |
 
@@ -46,7 +46,7 @@ The following operations are part of the **Process Offerings** use case:
 
 ## Contract CO4: Make Offering Available
 
-| **Operation:**        | `makeOfferingAvailable(admin, lesson)`                  |
+| **Operation:**        | `makeOfferingAvailable(offering)`                  |
 |-----------------------|----------------------------------------------------------|
 | **Cross References:** | Use Case: Process Offerings                              |
 | **Pre-conditions:**   | - The `Offering` object exists. <br> - Administrator has been authenticated by the system.    |
