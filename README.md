@@ -46,7 +46,7 @@ Java (Console) + Hibernate (Persistence & Security) + PostGreSQL (Database)
   ##### UC4 - Process Authentication Diagrams Folder: https://github.com/HudsonLu/SOEN342/tree/main/UC4-ProcessAuthentication
   ##### UCX - NonCritical Diagrams Folder: https://github.com/HudsonLu/SOEN342/tree/main/UCX-NonCritical
 
-## Video Implementation Link: https://youtu.be/-piop2qembk
+## Video Implementation Link: https://youtu.be/-piop2qembk | https://www.youtube.com/watch?v=-piop2qembk
 ### References
 PlantUML, "PlantUML – Open-source tool that uses simple textual descriptions to draw UML diagrams," [Online]. Available: https://plantuml.com/. [Accessed: 21-Oct-2024].
 
