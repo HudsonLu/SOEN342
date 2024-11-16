@@ -66,4 +66,22 @@ public class BookingDAO {
             return null;
         }
     }
+
+    public void truncateBookingsTable() {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            // Using native SQL to truncate the Booking table
+            session.createNativeQuery("TRUNCATE TABLE Booking CASCADE").executeUpdate();
+            transaction.commit();
+            System.out.println("All bookings have been deleted from the Booking table.");
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+
 }
