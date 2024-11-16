@@ -29,6 +29,23 @@ WorkFiles (Google Drive): https://drive.google.com/drive/folders/1uCUogp9aF82Z0h
 #### Implementation
 Java (Console) + Hibernate (Persistence & Security) + PostGreSQL (Database)
 
-#### References
+## Table of Content of All Diagrams:
+### Diagrams for overall code
+  ##### Class Diagram: https://github.com/HudsonLu/SOEN342/blob/main/Diagrams/Class-Diagram.png
+  ##### Domain Model: https://github.com/HudsonLu/SOEN342/blob/main/Diagrams/Domain_Model.png
+  ##### OCL Expressions: https://github.com/HudsonLu/SOEN342/blob/main/Diagrams/OCL-Expressions.png
+  ##### Package Diagram: https://github.com/HudsonLu/SOEN342/blob/main/Diagrams/Package_Diagram.png
+  ##### Relational Data Model: https://github.com/HudsonLu/SOEN342/blob/main/Diagrams/Relational-Data-Model.png
+  ##### Use Case Diagram: https://github.com/HudsonLu/SOEN342/blob/main/Diagrams/UseCaseDiagram.png
+  
+### System Sequence Diagrams and Interactions Diagrams mostly
+  ##### UC0 - Process Lesson Folder: https://github.com/HudsonLu/SOEN342/tree/main/UC0-ProcessLesson
+  ##### UC1 - Process Offering Diagrams Folder: https://github.com/HudsonLu/SOEN342/tree/main/UC1-ProcessOfferings
+  ##### UC2 - Process Booking Diagrams Folder: https://github.com/HudsonLu/SOEN342/tree/main/UC2-ProcessBookings
+  ##### UC3 - Cancel Offering, Lesson. Booking Diagrams Folder: https://github.com/HudsonLu/SOEN342/tree/main/UC3-CancelOffering-Booking-Lesson/SystemSequenceDiagrams
+  ##### UC4 - Process Authentication Diagrams Folder: https://github.com/HudsonLu/SOEN342/tree/main/UC4-ProcessAuthentication
+  ##### UCX - NonCritical Diagrams Folder: https://github.com/HudsonLu/SOEN342/tree/main/UCX-NonCritical
+
+### References
 PlantUML, "PlantUML – Open-source tool that uses simple textual descriptions to draw UML diagrams," [Online]. Available: https://plantuml.com/. [Accessed: 21-Oct-2024].
 
