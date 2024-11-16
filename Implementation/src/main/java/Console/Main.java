@@ -281,7 +281,7 @@ public class Main {
     private static void instructorDashboard(Scanner scanner, Instructor instructor, Lessons lessons) {
         while (true) {
             System.out.println("Instructor Dashboard");
-            System.out.println("1. Create an Offering");
+            System.out.println("1. Create an Offering/Select a lesson");
             System.out.println("2. View All Offerings");
             System.out.println("3. View Lessons Not Associated with Offerings");
             System.out.println("4. Log Out");
